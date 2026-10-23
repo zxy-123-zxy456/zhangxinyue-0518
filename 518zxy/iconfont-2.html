@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icon Study 02 — Lucide</title>
+    <!-- Lucide 本地 CDN -->
+    <script src="cdn/lucide/lucide.min.js"></script>
+    <style>
+        /* ============================================
+           Icon Study 02 — Lucide (SVG)
+           艺术品牌样式：近黑底 + 琥珀金强调 + 锐利边界
+           与 iconfont-1.html 保持同一视觉体系
+           ============================================ */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0C0C0E;
+            color: #EBE7DE;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ---------- 顶部导航：返回首页 ---------- */
+        .zxy_nav {
+            height: 48px;
+            border-bottom: 1px solid #2A2A2E;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            gap: 24px;
+        }
+
+        .zxy_nav a.zxy_homeLink {
+            color: #6B6B72;
+            text-decoration: none;
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .zxy_nav a.zxy_homeLink:hover {
+            color: #C9A961;
+        }
+
+        .zxy_nav .zxy_divider {
+            width: 1px;
+            height: 16px;
+            background-color: #2A2A2E;
+        }
+
+        .zxy_nav .zxy_navLabel {
+            color: #C9A961;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        /* ---------- 主内容 ---------- */
+        main {
+            flex: 1;
+            display: flex;
+        }
+
+        /* 左侧琥珀金竖线锚点 */
+        .zxy_anchor {
+            width: 4px;
+            background-color: #C9A961;
+            flex-shrink: 0;
+        }
+
+        .zxy_content {
+            flex: 1;
+            padding: 60px 60px 80px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* ---------- 标题区 ---------- */
+        .zxy_header {
+            margin-bottom: 64px;
+        }
+
+        .zxy_header .zxy_tag {
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #C9A961;
+            margin-bottom: 16px;
+        }
+
+        .zxy_header h1 {
+            font-size: 56px;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            color: #EBE7DE;
+            margin-bottom: 12px;
+        }
+
+        .zxy_header h1 span {
+            font-style: italic;
+            color: #C9A961;
+            font-weight: 400;
+        }
+
+        .zxy_header p {
+            color: #6B6B72;
+            font-size: 15px;
+            max-width: 560px;
+            line-height: 1.7;
+        }
+
+        /* ---------- SVG 图标样式（Lucide 输出是 inline svg）---------- */
+        .zxy_gridItem svg {
+            width: 36px;
+            height: 36px;
+            stroke: #EBE7DE;
+            stroke-width: 1.8;
+            fill: none;
+            transition: stroke 0.25s;
+        }
+
+        .zxy_gridItem:hover svg {
+            stroke: #C9A961;
+        }
+
+        /* ---------- 图标网格 ---------- */
+        .zxy_grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-top: 1px solid #2A2A2E;
+            border-left: 1px solid #2A2A2E;
+        }
+
+        .zxy_gridItem {
+            aspect-ratio: 1 / 1;
+            border-right: 1px solid #2A2A2E;
+            border-bottom: 1px solid #2A2A2E;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            padding: 20px;
+            cursor: pointer;
+            transition: background-color 0.25s;
+        }
+
+        .zxy_gridItem:hover {
+            background-color: #1A1A1E;
+        }
+
+        .zxy_gridItem .zxy_iconName {
+            font-family: "JetBrains Mono", "Consolas", monospace;
+            font-size: 11px;
+            color: #6B6B72;
+            letter-spacing: 0.05em;
+            text-align: center;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* ---------- 页脚 catalog 编号 ---------- */
+        .zxy_footer {
+            border-top: 1px solid #2A2A2E;
+            padding: 24px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: "JetBrains Mono", "Consolas", monospace;
+            font-size: 11px;
+            color: #6B6B72;
+            letter-spacing: 0.08em;
+        }
+
+        .zxy_footer .zxy_catNo {
+            color: #C9A961;
+        }
+
+        /* ---------- 响应式 ---------- */
+        @media (max-width: 900px) {
+            .zxy_grid { grid-template-columns: repeat(3, 1fr); }
+            .zxy_header h1 { font-size: 40px; }
+            .zxy_content { padding: 40px 24px 60px 16px; }
+        }
+
+        @media (max-width: 600px) {
+            .zxy_grid { grid-template-columns: repeat(2, 1fr); }
+            .zxy_header h1 { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航：返回首页 -->
+    <nav class="zxy_nav">
+        <a href="index.html" class="zxy_homeLink">← Back to Index</a>
+        <span class="zxy_divider"></span>
+        <span class="zxy_navLabel">Icon Study · 02</span>
+    </nav>
+
+    <main>
+        <!-- 琥珀金竖线锚点 -->
+        <div class="zxy_anchor"></div>
+
+        <div class="zxy_content">
+
+            <!-- 标题区 -->
+            <header class="zxy_header">
+                <div class="zxy_tag">Vector Graphics · Vol. 02</div>
+                <h1>Lucide</h1>
+                <p>Pure stroke vectors, drawn at 24 × 24, shipped as inline SVG. 纯描边矢量，24 × 24 基准，以内联方式嵌入。</p>
+            </header>
+
+            <!-- 图标网格（4×5 = 20 个 SVG 图标） -->
+            <div class="zxy_grid">
+                <div class="zxy_gridItem"><i data-lucide="star"></i><span class="zxy_iconName">star</span></div>
+                <div class="zxy_gridItem"><i data-lucide="heart"></i><span class="zxy_iconName">heart</span></div>
+                <div class="zxy_gridItem"><i data-lucide="play-circle"></i><span class="zxy_iconName">play-circle</span></div>
+                <div class="zxy_gridItem"><i data-lucide="search"></i><span class="zxy_iconName">search</span></div>
+
+                <div class="zxy_gridItem"><i data-lucide="user"></i><span class="zxy_iconName">user</span></div>
+                <div class="zxy_gridItem"><i data-lucide="mail"></i><span class="zxy_iconName">mail</span></div>
+                <div class="zxy_gridItem"><i data-lucide="phone"></i><span class="zxy_iconName">phone</span></div>
+                <div class="zxy_gridItem"><i data-lucide="map-pin"></i><span class="zxy_iconName">map-pin</span></div>
+
+                <div class="zxy_gridItem"><i data-lucide="camera"></i><span class="zxy_iconName">camera</span></div>
+                <div class="zxy_gridItem"><i data-lucide="music"></i><span class="zxy_iconName">music</span></div>
+                <div class="zxy_gridItem"><i data-lucide="palette"></i><span class="zxy_iconName">palette</span></div>
+                <div class="zxy_gridItem"><i data-lucide="book-open"></i><span class="zxy_iconName">book-open</span></div>
+
+                <div class="zxy_gridItem"><i data-lucide="github"></i><span class="zxy_iconName">github</span></div>
+                <div class="zxy_gridItem"><i data-lucide="twitter"></i><span class="zxy_iconName">twitter</span></div>
+                <div class="zxy_gridItem"><i data-lucide="instagram"></i><span class="zxy_iconName">instagram</span></div>
+                <div class="zxy_gridItem"><i data-lucide="linkedin"></i><span class="zxy_iconName">linkedin</span></div>
+
+                <div class="zxy_gridItem"><i data-lucide="bell"></i><span class="zxy_iconName">bell</span></div>
+                <div class="zxy_gridItem"><i data-lucide="bookmark"></i><span class="zxy_iconName">bookmark</span></div>
+                <div class="zxy_gridItem"><i data-lucide="cloud"></i><span class="zxy_iconName">cloud</span></div>
+                <div class="zxy_gridItem"><i data-lucide="rocket"></i><span class="zxy_iconName">rocket</span></div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 页脚 catalog -->
+    <footer class="zxy_footer">
+        <span class="zxy_catNo">CAT. 002 — Lucide Latest</span>
+        <span>Type · inline SVG · stroke</span>
+    </footer>
+
+    <!-- Lucide 初始化：把 <i data-lucide> 替换为内联 SVG -->
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body>
+</html>

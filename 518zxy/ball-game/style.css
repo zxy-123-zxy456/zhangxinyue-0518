@@ -1,0 +1,211 @@
+/* ============================================
+   网页抓小球小游戏 —— style.css
+   所有类名 / id 均以 zxy_ 开头
+   ============================================ */
+
+/* ---------- 页面基础 ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body#zxy_body {
+    background-color: #FFF9C4;          /* 柔和奶黄 */
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ---------- 游戏容器 ---------- */
+.zxy_gameContainer {
+    width: 800px;
+    height: 600px;
+    background-color: #FFFDE7;           /* 容器背景略深于页面 */
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ---------- 顶部信息栏 ---------- */
+.zxy_topBar {
+    height: 56px;
+    background-color: #FFEB3B;           /* 顶部栏黄色 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #F57F17;
+    flex-shrink: 0;                      /* 不被压缩 */
+}
+
+.zxy_scoreBox,
+.zxy_timerBox {
+    user-select: none;
+    cursor: default;
+}
+
+#zxy_scoreValue {
+    color: #D32F2F;                      /* 分数红色醒目 */
+    min-width: 40px;
+    display: inline-block;
+    text-align: center;
+}
+
+#zxy_timerValue {
+    color: #1976D2;                      /* 倒计时蓝色 */
+    min-width: 50px;
+    display: inline-block;
+    text-align: center;
+}
+
+/* ---------- 游戏活动区 ---------- */
+.zxy_playArea {
+    flex: 1;                              /* 占满剩余高度 */
+    position: relative;
+    background-color: #FFFDE7;
+    overflow: hidden;
+}
+
+/* ---------- Start 按钮 ---------- */
+.zxy_startBtn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 16px 48px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 32px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+    transition: transform 0.15s, box-shadow 0.15s;
+    z-index: 10;
+}
+
+.zxy_startBtn:hover {
+    background-color: #43A047;
+    transform: translate(-50%, -50%) scale(1.05);
+    box-shadow: 0 6px 16px rgba(76, 175, 80, 0.5);
+}
+
+.zxy_startBtn:active {
+    transform: translate(-50%, -50%) scale(0.97);
+}
+
+/* Start 按钮隐藏状态 */
+.zxy_startBtn.zxy_hidden {
+    display: none;
+}
+
+/* ---------- 小球 ---------- */
+.zxy_ball {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #4FC3F7;           /* 浅蓝色 */
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(79, 195, 247, 0.5);
+    transition: transform 0.1s;
+    z-index: 5;
+}
+
+.zxy_ball:hover {
+    transform: scale(1.08);
+}
+
+/* ---------- 3-2-1-Go! 倒计时覆盖层 ---------- */
+.zxy_countdownOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 120px;
+    font-weight: bold;
+    color: #FF5722;
+    text-shadow: 0 4px 16px rgba(255, 87, 34, 0.4);
+    pointer-events: none;                /* 不拦截点击 */
+    z-index: 20;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.zxy_countdownOverlay.zxy_show {
+    opacity: 1;
+}
+
+/* ---------- 结束界面覆盖层 ---------- */
+.zxy_endOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 249, 196, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 30;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.zxy_endOverlay.zxy_show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.zxy_endContent {
+    text-align: center;
+    padding: 32px;
+}
+
+.zxy_endContent h2 {
+    font-size: 36px;
+    color: #E65100;
+    margin-bottom: 16px;
+}
+
+.zxy_endContent p {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 24px;
+}
+
+.zxy_restartBtn {
+    padding: 14px 40px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #FF9800;
+    border: none;
+    border-radius: 28px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+    transition: transform 0.15s;
+}
+
+.zxy_restartBtn:hover {
+    background-color: #F57C00;
+    transform: scale(1.05);
+}
+
+/* ---------- 通用工具类 ---------- */
+.zxy_hidden {
+    display: none !important;
+}
