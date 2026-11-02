@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端关键：禁止缩放，固定宽度 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bottom Nav — Lucide SVG</title>
+
+    <!-- Lucide 本地 CDN（与 iconfont-2.html 同源） -->
+    <script src="cdn/lucide/lucide.min.js"></script>
+
+    <style>
+        /* ============================================
+           iconfont-4.html — 移动端底部导航（SVG 图标）
+           与 iconfont-3 保持同一视觉体系（近黑底 + 琥珀金）
+           区别：图标用 Lucide SVG（stroke 描边风格）
+           ============================================ */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body { height: 100%; }
+
+        body {
+            background-color: #141418;
+            color: #EBE7DE;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 70px;
+        }
+
+        /* ---------- 顶部导航 ---------- */
+        .zxy_topNav {
+            width: 100%;
+            max-width: 480px;
+            height: 44px;
+            border-bottom: 1px solid #2A2A2E;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            background-color: #141418;
+        }
+
+        .zxy_topNav a.zxy_back {
+            color: #6B6B72;
+            text-decoration: none;
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            transition: color 0.2s;
+        }
+        .zxy_topNav a.zxy_back:hover { color: #C9A961; }
+
+        .zxy_topNav .zxy_pageTitle {
+            flex: 1;
+            text-align: center;
+            font-size: 13px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #C9A961;
+            font-weight: 500;
+        }
+
+        /* ---------- 手机模拟容器 ---------- */
+        .zxy_phoneWrap {
+            width: 100%;
+            max-width: 480px;
+            flex: 1;
+            position: relative;
+            border-left: 1px solid #2A2A2E;
+            border-right: 1px solid #2A2A2E;
+            background-color: #1A1A1E;
+            min-height: calc(100vh - 44px - 70px);
+        }
+
+        .zxy_contentArea {
+            padding: 24px 20px;
+        }
+
+        .zxy_contentArea h2 {
+            font-size: 22px;
+            font-weight: 500;
+            color: #EBE7DE;
+            margin-bottom: 8px;
+        }
+
+        .zxy_contentArea p {
+            font-size: 14px;
+            color: #6B6B72;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        /* ---------- SVG 图标基础样式（Lucide 输出 inline svg） ---------- */
+        .zxy_iconWrap svg {
+            width: 22px;
+            height: 22px;
+            stroke: #6B6B72;
+            stroke-width: 1.8;
+            fill: none;
+            transition: stroke 0.2s;
+        }
+
+        .zxy_navItem.active .zxy_iconWrap svg {
+            stroke: #C9A961;
+        }
+
+        .zxy_cardGrid svg {
+            width: 28px;
+            height: 28px;
+            stroke: #C9A961;
+            stroke-width: 1.8;
+            fill: none;
+        }
+
+        .zxy_cardGrid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .zxy_demoCard {
+            aspect-ratio: 1 / 1.3;
+            border: 1px solid #2A2A2E;
+            background-color: #0C0C0E;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .zxy_demoCard span {
+            font-family: "JetBrains Mono", "Consolas", monospace;
+            font-size: 10px;
+            color: #6B6B72;
+        }
+
+        /* ============================================
+           底部导航（核心 — 与 iconfont-3 同结构）
+           ============================================ */
+        .zxy_bottomNav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            height: 64px;
+            background-color: #0C0C0E;
+            border-top: 1px solid #2A2A2E;
+            display: flex;
+            justify-content: space-around;
+            align-items: stretch;
+            padding-bottom: env(safe-area-inset-bottom);
+            z-index: 100;
+        }
+
+        .zxy_navItem {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+            position: relative;
+            text-decoration: none;
+            user-select: none;
+            transition: color 0.2s;
+        }
+
+        .zxy_iconWrap {
+            position: relative;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .zxy_navItem .zxy_label {
+            font-size: 10px;
+            color: #6B6B72;
+            letter-spacing: 0.05em;
+            transition: color 0.2s;
+        }
+
+        .zxy_navItem.active .zxy_label {
+            color: #C9A961;
+        }
+
+        /* ---------- 数字徽章 ---------- */
+        .zxy_badge {
+            position: absolute;
+            top: -2px;
+            right: -8px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            background-color: #D9534F;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 600;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            border: 1px solid #0C0C0E;
+            box-sizing: border-box;
+        }
+
+        .zxy_badge.zxy_badgeLarge {
+            min-width: 24px;
+            padding: 0 6px;
+            font-size: 9px;
+        }
+
+        /* ---------- 纯红点 ---------- */
+        .zxy_dot {
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            width: 8px;
+            height: 8px;
+            background-color: #D9534F;
+            border-radius: 50%;
+            border: 1px solid #0C0C0E;
+            box-sizing: border-box;
+        }
+
+        /* ---------- 选中态下划线 ---------- */
+        .zxy_navItem.active::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 2px;
+            background-color: #C9A961;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航 -->
+    <div class="zxy_topNav">
+        <a href="index.html" class="zxy_back">← Index</a>
+        <span class="zxy_pageTitle">Bottom Nav · Lucide</span>
+        <span style="width:42px"></span>
+    </div>
+
+    <!-- 手机模拟容器 -->
+    <div class="zxy_phoneWrap">
+
+        <div class="zxy_contentArea">
+            <h2>SVG 图标版</h2>
+            <p>4 个底部导航项，来自 Lucide SVG 图标库。结构与 iconfont-3 相同，仅图标换为 inline SVG。</p>
+
+            <div class="zxy_cardGrid">
+                <div class="zxy_demoCard"><i data-lucide="home"></i><span>Home</span></div>
+                <div class="zxy_demoCard"><i data-lucide="smartphone"></i><span>Phone</span></div>
+                <div class="zxy_demoCard"><i data-lucide="book-open"></i><span>Book</span></div>
+                <div class="zxy_demoCard"><i data-lucide="heart"></i><span>Heart</span></div>
+            </div>
+        </div>
+
+        <!-- 底部导航栏（核心） -->
+        <nav class="zxy_bottomNav">
+
+            <!-- ① 首页 —— 数字徽章 12 -->
+            <a class="zxy_navItem active" data-target="home">
+                <div class="zxy_iconWrap">
+                    <i data-lucide="home"></i>
+                    <span class="zxy_badge">12</span>
+                </div>
+                <span class="zxy_label">首页</span>
+            </a>
+
+            <!-- ② 消息 —— 纯红点 -->
+            <a class="zxy_navItem" data-target="message">
+                <div class="zxy_iconWrap">
+                    <i data-lucide="message-circle"></i>
+                    <span class="zxy_dot"></span>
+                </div>
+                <span class="zxy_label">消息</span>
+            </a>
+
+            <!-- ③ 发现 —— 无标记 -->
+            <a class="zxy_navItem" data-target="discover">
+                <div class="zxy_iconWrap">
+                    <i data-lucide="compass"></i>
+                </div>
+                <span class="zxy_label">发现</span>
+            </a>
+
+            <!-- ④ 我的 —— 99+ 徽章 -->
+            <a class="zxy_navItem" data-target="me">
+                <div class="zxy_iconWrap">
+                    <i data-lucide="user"></i>
+                    <span class="zxy_badge zxy_badgeLarge">99+</span>
+                </div>
+                <span class="zxy_label">我的</span>
+            </a>
+
+        </nav>
+
+    </div>
+
+    <script src="cdn/lucide/lucide.min.js"></script>
+    <script>
+        // Lucide 初始化 —— 必须在 DOM 就绪 + script 引入后调用
+        lucide.createIcons();
+
+        // 点击切换 active
+        const items = document.querySelectorAll('.zxy_navItem');
+        items.forEach(item => {
+            item.addEventListener('click', function () {
+                items.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+</html>

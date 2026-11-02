@@ -1,18 +1,24 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+# ============================================
+# .gitignore — 518zxy 项目
+# ============================================
 
-# Other files and folders
-.settings/
+# --- 安全：敏感文件 ---
+zxy_prompt.md              # 提示词执行记录（含令牌敏感信息）
+**/zxy_prompt.md
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+# --- 系统文件 ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+# --- 编辑器 ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- node / python ---
+node_modules/
+__pycache__/
+*.pyc
