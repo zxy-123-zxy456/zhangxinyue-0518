@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--
+  zxy
+  创建时间：2026-11-04
+  使用大模型：DeepSeek-V4.1-Flash
+  功能名称：11.4 日实践作业 —— 汽车「最新上市 / 即将上市」选项卡表格页（一比一还原截图）
+-->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最新上市｜张欣悦 · 11.4 日实践作业</title>
+    <!-- zxy：样式与结构分离，样式统一放在 css 目录 -->
+    <link rel="stylesheet" href="css/zxy_11_4.css">
+</head>
+<body>
+
+    <!-- zxy：顶部返回首页入口（课程规则要求） -->
+    <header class="zxy_topBar">
+        <a class="zxy_backLink" href="../index.html">← 返回首页</a>
+        <span class="zxy_pageHint">11.4 日实践作业 · zxy</span>
+    </header>
+
+    <!-- zxy：选项卡卡片主体 -->
+    <div class="zxy_card" id="zxy_carTabs" data-zxy-tabs="true" data-zxy-default="0">
+
+        <!-- zxy：选项卡导航（默认选中「最新上市」） -->
+        <div class="zxy_tabNav" role="tablist" aria-label="上市车型分类">
+            <button type="button" class="zxy_tabItem zxy_active" role="tab"
+                    data-zxy-tab="newest" aria-selected="true">最新上市</button>
+            <button type="button" class="zxy_tabItem" role="tab"
+                    data-zxy-tab="coming" aria-selected="false">即将上市</button>
+        </div>
+
+        <!-- zxy：面板一 —— 最新上市 -->
+        <div class="zxy_tabPanel zxy_active" role="tabpanel" data-zxy-panel="newest">
+            <table class="zxy_table">
+                <thead>
+                    <tr>
+                        <th class="zxy_thDate">上市时间</th>
+                        <th class="zxy_thModel">品牌/车型</th>
+                        <th class="zxy_thPrice">售价（万元）</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="zxy_tdDate">12月13日</td>
+                        <td class="zxy_tdModel">沃尔沃S60L</td>
+                        <td class="zxy_tdPrice">26.99-38.49</td>
+                    </tr>
+                    <tr>
+                        <td class="zxy_tdDate">12月12日</td>
+                        <td class="zxy_tdModel">Jeep牧马人龙腾典藏</td>
+                        <td class="zxy_tdPrice">47.99-59.99</td>
+                    </tr>
+                    <tr>
+                        <td class="zxy_tdDate">12月10日</td>
+                        <td class="zxy_tdModel">一汽大众高尔夫7</td>
+                        <td class="zxy_tdPrice">11.89-18.29</td>
+                    </tr>
+                    <tr>
+                        <td class="zxy_tdDate">12月6日</td>
+                        <td class="zxy_tdModel">2014款古思特</td>
+                        <td class="zxy_tdPrice">419.0-666.0</td>
+                    </tr>
+                    <tr>
+                        <td class="zxy_tdDate">12月5日</td>
+                        <td class="zxy_tdModel">起亚新款K5</td>
+                        <td class="zxy_tdPrice">15.98-25.18</td>
+                    </tr>
+                    <tr>
+                        <td class="zxy_tdDate">12月5日</td>
+                        <td class="zxy_tdModel">2014款奥德赛</td>
+                        <td class="zxy_tdPrice">22.98-28.66</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- zxy：面板二 —— 即将上市 -->
+        <div class="zxy_tabPanel" role="tabpanel" data-zxy-panel="coming" hidden>
+            <table class="zxy_table">
+                <thead>
+                    <tr>
+                        <th class="zxy_thDate">上市时间</th>
+                        <th class="zxy_thModel">品牌/车型</th>
+                        <th class="zxy_thPrice">售价（万元）</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="zxy_tdDate">12月18日</td>
+                        <td class="zxy_tdModel">全新凯美瑞</td>
+                        <td class="zxy_tdPrice">17.98-25.98</td>
+                    </tr>
+                    <tr>
+                        <td class="zxy_tdDate">12月20日</td>
+                        <td class="zxy_tdModel">宝马X1</td>
+                        <td class="zxy_tdPrice">28.60-39.80</td>
+                    </tr>
+                    <tr>
+                        <td class="zxy_tdDate">12月25日</td>
+                        <td class="zxy_tdModel">别克昂科威</td>
+                        <td class="zxy_tdPrice">19.99-27.99</td>
+                    </tr>
+                    <tr>
+                        <td class="zxy_tdDate">12月28日</td>
+                        <td class="zxy_tdModel">大众途观L</td>
+                        <td class="zxy_tdPrice">21.58-31.98</td>
+                    </tr>
+                    <tr>
+                        <td class="zxy_tdDate">1月5日</td>
+                        <td class="zxy_tdModel">吉利博越</td>
+                        <td class="zxy_tdPrice">9.88-15.78</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- zxy：外部引用可复用选项卡组件 -->
+    <script src="js/zxy_tab.js"></script>
+</body>
+</html>

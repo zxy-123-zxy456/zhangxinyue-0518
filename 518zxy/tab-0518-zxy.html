@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<!--
+  zxy
+  创建时间：2026-11-04
+  使用大模型：DeepSeek-V4.1-Flash
+  功能名称：新闻 Tab 选项卡切换（国内 / 省内 / 国际 / 最热，默认国内新闻）
+-->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻选项卡｜张欣悦 · 高级网页设计</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Microsoft YaHei", sans-serif;
+            color: #1f2937;
+            background: linear-gradient(135deg, #eef2ff, #fdf2f8);
+        }
+
+        .zxy_container {
+            width: min(900px, 92%);
+            margin: 0 auto;
+            padding: 32px 0 48px;
+        }
+
+        /* ---------- 顶部返回首页 ---------- */
+        .zxy_topBar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 26px;
+        }
+
+        .zxy_backLink {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            color: #4f46e5;
+            background: #fff;
+            box-shadow: 0 8px 20px rgba(199, 210, 254, .9);
+            text-decoration: none;
+            font-size: 14px;
+            transition: .25s;
+        }
+
+        .zxy_backLink:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(199, 210, 254, 1);
+        }
+
+        .zxy_pageTag {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* ---------- 页面标题 ---------- */
+        .zxy_pageHead {
+            margin-bottom: 22px;
+        }
+
+        .zxy_pageHead h1 {
+            margin: 0 0 8px;
+            font-size: clamp(24px, 4vw, 34px);
+            letter-spacing: 2px;
+            color: #3730a3;
+        }
+
+        .zxy_pageHead p {
+            margin: 0;
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        /* ---------- 选项卡容器 ---------- */
+        .zxy_tabs {
+            padding: 22px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, .88);
+            border: 1px solid #fff;
+            box-shadow: 0 12px 28px rgba(79, 70, 229, .12);
+        }
+
+        .zxy_tabNav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding-bottom: 16px;
+            margin-bottom: 18px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .zxy_tabItem {
+            padding: 10px 20px;
+            border: 1px solid transparent;
+            border-radius: 30px;
+            color: #475569;
+            background: #f1f5ff;
+            font-family: inherit;
+            font-size: 15px;
+            cursor: pointer;
+            transition: .22s;
+        }
+
+        .zxy_tabItem:hover {
+            color: #4f46e5;
+            background: #e6ebff;
+        }
+
+        /* 选中态 */
+        .zxy_tabItem.zxy_active {
+            color: #fff;
+            background: linear-gradient(135deg, #6366f1, #c026d3);
+            box-shadow: 0 8px 18px rgba(99, 102, 241, .35);
+        }
+
+        /* ---------- 内容面板 ---------- */
+        .zxy_tabPanel {
+            display: none;
+        }
+
+        .zxy_tabPanel.zxy_active {
+            display: block;
+            animation: zxy_fade .28s ease;
+        }
+
+        @keyframes zxy_fade {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .zxy_newsList {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 14px;
+        }
+
+        .zxy_newsItem {
+            padding: 16px 18px;
+            border-left: 4px solid #c7d2fe;
+            border-radius: 12px;
+            background: #f8faff;
+            transition: .22s;
+        }
+
+        .zxy_newsItem:hover {
+            border-left-color: #6366f1;
+            background: #f1f5ff;
+            transform: translateX(4px);
+        }
+
+        .zxy_newsItem h3 {
+            margin: 0 0 6px;
+            font-size: 16px;
+            color: #3730a3;
+        }
+
+        .zxy_newsItem p {
+            margin: 0 0 8px;
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.75;
+        }
+
+        .zxy_newsMeta {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        footer {
+            padding-top: 30px;
+            text-align: center;
+            color: #64748b;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="zxy_container">
+
+        <!-- 顶部：返回首页入口 -->
+        <div class="zxy_topBar">
+            <a class="zxy_backLink" href="index.html">← 返回首页</a>
+            <span class="zxy_pageTag">高级网页设计 · 课堂实践</span>
+        </div>
+
+        <div class="zxy_pageHead">
+            <h1>新闻资讯</h1>
+            <p>点击选项卡切换不同新闻频道，默认显示「国内新闻」。</p>
+        </div>
+
+        <!-- 选项卡容器：data-zxy-default="0" 指定默认选中第 1 项（国内新闻） -->
+        <section class="zxy_tabs" id="zxy_newsTabs" data-zxy-tabs="true" data-zxy-default="0">
+
+            <!-- 选项卡导航 -->
+            <div class="zxy_tabNav" role="tablist" aria-label="新闻分类">
+                <button type="button" class="zxy_tabItem zxy_active" role="tab"
+                        data-zxy-tab="cn" aria-selected="true">国内新闻</button>
+                <button type="button" class="zxy_tabItem" role="tab"
+                        data-zxy-tab="province" aria-selected="false">省内新闻</button>
+                <button type="button" class="zxy_tabItem" role="tab"
+                        data-zxy-tab="world" aria-selected="false">国际新闻</button>
+                <button type="button" class="zxy_tabItem" role="tab"
+                        data-zxy-tab="hot" aria-selected="false">最热新闻</button>
+            </div>
+
+            <!-- 面板 1：国内新闻 -->
+            <div class="zxy_tabPanel zxy_active" role="tabpanel" data-zxy-panel="cn">
+                <ul class="zxy_newsList">
+                    <li class="zxy_newsItem">
+                        <h3>全国多地推进城市更新项目</h3>
+                        <p>多地围绕老旧小区改造、公共空间提升推出新一批城市更新计划，重点补齐养老、托育等社区服务设施。</p>
+                        <span class="zxy_newsMeta">国内 · 2026-11-04 09:20</span>
+                    </li>
+                    <li class="zxy_newsItem">
+                        <h3>高铁新线路进入试运行阶段</h3>
+                        <p>新建高铁线路完成联调联试，进入试运行阶段，预计将缩短沿线城市间通行时间约四成。</p>
+                        <span class="zxy_newsMeta">国内 · 2026-11-04 08:05</span>
+                    </li>
+                    <li class="zxy_newsItem">
+                        <h3>秋季招聘会提供岗位超十万个</h3>
+                        <p>多场秋季大型招聘活动陆续启动，覆盖制造、信息技术、现代服务等行业，提供岗位超过十万个。</p>
+                        <span class="zxy_newsMeta">国内 · 2026-11-03 18:40</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 面板 2：省内新闻 -->
+            <div class="zxy_tabPanel" role="tabpanel" data-zxy-panel="province" hidden>
+                <ul class="zxy_newsList">
+                    <li class="zxy_newsItem">
+                        <h3>省内推进乡村道路提升工程</h3>
+                        <p>省内多个县区启动乡村道路提升工程，重点改造破损路面与狭窄路段，改善农产品运输条件。</p>
+                        <span class="zxy_newsMeta">省内 · 2026-11-04 10:12</span>
+                    </li>
+                    <li class="zxy_newsItem">
+                        <h3>省级图书馆推出夜间开放服务</h3>
+                        <p>省级图书馆试行夜间开放，延长至 21:00，并增设自习区与亲子阅读区。</p>
+                        <span class="zxy_newsMeta">省内 · 2026-11-03 20:30</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 面板 3：国际新闻 -->
+            <div class="zxy_tabPanel" role="tabpanel" data-zxy-panel="world" hidden>
+                <ul class="zxy_newsList">
+                    <li class="zxy_newsItem">
+                        <h3>多国推进跨境绿色能源合作</h3>
+                        <p>多国就能源转型与跨境输电项目签署合作意向，计划共同建设区域清洁能源网络。</p>
+                        <span class="zxy_newsMeta">国际 · 2026-11-04 07:15</span>
+                    </li>
+                    <li class="zxy_newsItem">
+                        <h3>国际航运运价指数连续三周回落</h3>
+                        <p>受运力投放增加影响，国际航运运价指数连续三周回落，主要航线运价趋于平稳。</p>
+                        <span class="zxy_newsMeta">国际 · 2026-11-02 22:10</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 面板 4：最热新闻 -->
+            <div class="zxy_tabPanel" role="tabpanel" data-zxy-panel="hot" hidden>
+                <ul class="zxy_newsList">
+                    <li class="zxy_newsItem">
+                        <h3>秋日城市公园成热门打卡地</h3>
+                        <p>随着气温转凉，城市公园进入最佳观赏期，周末客流较上月增长明显。</p>
+                        <span class="zxy_newsMeta">最热 · 阅读量 12.6 万</span>
+                    </li>
+                    <li class="zxy_newsItem">
+                        <h3>传统手工艺市集吸引年轻人</h3>
+                        <p>多场传统手工艺市集在城市街区举办，年轻参与者明显增多，带动相关文创产品销售</p>
+                        <span class="zxy_newsMeta">最热 · 阅读量 9.8 万</span>
+                    </li>
+                </ul>
+            </div>
+
+        </section>
+
+        <footer>© 2026 张欣悦 · 高级网页设计课堂实践</footer>
+    </div>
+
+    <!-- 外部引用：可复用 Tab 选项卡组件 -->
+    <script src="js/zxy_tab.js"></script>
+</body>
+</html>

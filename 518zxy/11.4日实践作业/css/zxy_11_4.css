@@ -1,0 +1,173 @@
+/* ============================================================
+ * zxy_11_4.css —— 11.4 日实践作业样式（zxy）
+ * 作者：zxy
+ * 创建时间：2026-11-04
+ * 使用大模型：DeepSeek-V4.1-Flash
+ * 功能名称：最新上市 / 即将上市 选项卡卡片与表格样式（按截图一比一还原）
+ * ============================================================ */
+
+/* zxy：全局重置 */
+* {
+    box-sizing: border-box;
+}
+
+/* zxy：页面背景浅灰，卡片居中 */
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 24px 16px 40px;
+    font-family: "SimSun", "宋体", "Microsoft YaHei", serif;
+    color: #333;
+    background: #f6f6f6;
+}
+
+/* zxy：顶部返回首页栏 */
+.zxy_topBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 420px;
+    max-width: 100%;
+    margin: 0 auto 14px;
+    font-family: "Microsoft YaHei", sans-serif;
+    font-size: 13px;
+}
+
+.zxy_backLink {
+    padding: 5px 12px;
+    border: 1px solid #d6d6d6;
+    border-radius: 3px;
+    color: #1f63a8;
+    background: #fff;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.zxy_backLink:hover {
+    border-color: #1f63a8;
+    background: #f2f7fc;
+}
+
+.zxy_pageHint {
+    color: #999;
+}
+
+/* zxy：卡片外壳（白底、细边框、浅阴影） */
+.zxy_card {
+    width: 420px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 0 6px;
+    border: 1px solid #e2e2e2;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
+}
+
+/* zxy：选项卡导航条 */
+.zxy_tabNav {
+    display: flex;
+    align-items: flex-end;
+    gap: 0;
+    padding: 0 14px;
+    border-bottom: 1px solid #e6e6e6;
+    background: #fff;
+}
+
+/* zxy：单个选项卡 */
+.zxy_tabItem {
+    min-width: 86px;
+    padding: 9px 16px 8px;
+    border: none;
+    border-top: 3px solid transparent;
+    color: #666;
+    background: transparent;
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: .18s;
+}
+
+.zxy_tabItem:hover {
+    color: #1f63a8;
+}
+
+/* zxy：选中态 —— 浅蓝底 + 顶部蓝色短线 */
+.zxy_tabItem.zxy_active {
+    border-top-color: #1f63a8;
+    color: #000;
+    font-weight: 700;
+    background: #dbe9f7;
+}
+
+/* zxy：内容面板默认隐藏，选中时显示 */
+.zxy_tabPanel {
+    display: none;
+}
+
+.zxy_tabPanel.zxy_active {
+    display: block;
+}
+
+/* zxy：表格主体 */
+.zxy_table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 13px;
+}
+
+/* zxy：表头 */
+.zxy_table thead th {
+    padding: 12px 14px 8px;
+    border-bottom: 1px solid #e8e8e8;
+    font-weight: 700;
+    color: #222;
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* zxy：三列宽度分配，贴近截图比例 */
+.zxy_thDate {
+    width: 27%;
+}
+
+.zxy_thModel {
+    width: 45%;
+}
+
+.zxy_thPrice {
+    width: 28%;
+}
+
+/* zxy：数据行 —— 点状分隔线 */
+.zxy_table tbody td {
+    padding: 9px 14px;
+    border-bottom: 1px dotted #d8d8d8;
+    vertical-align: middle;
+}
+
+/* zxy：最后一行不需要分隔线 */
+.zxy_table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* zxy：日期列 */
+.zxy_tdDate {
+    color: #555;
+}
+
+/* zxy：车型列（蓝色，模拟链接色） */
+.zxy_tdModel {
+    color: #1f63a8;
+}
+
+/* zxy：价格列 */
+.zxy_tdPrice {
+    color: #333;
+}
+
+/* zxy：行悬停轻微反馈 */
+.zxy_table tbody tr:hover td {
+    background: #f7fbff;
+}
