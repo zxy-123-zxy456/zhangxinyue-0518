@@ -17,6 +17,6 @@ bin-release/
 # should NOT be excluded as they contain compiler settings and other important
 # information for Eclipse / Flash Builder.
 
-# zxy: 根目录旧版首页已废弃，仅保留 518zxy/index.html 作为作品入口
-/index.html
+# zxy: 提示词执行记录（含敏感信息，不入库）
+**/zxy_prompt.md
 
