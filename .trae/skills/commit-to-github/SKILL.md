@@ -13,7 +13,7 @@ description: 将本项目（zhang-xinyue/518zxy）提交并推送到 GitHub 仓�
 
 ## 项目位置
 - Git 仓库根：`D:\Users\HP\Desktop\HTML文件\zhang-xinyue`（分支 `master`）
-- 作品目录：`518zxy/`（仓库根下唯一作品目录）
+- 作品目录：仓库根目录本身（原 `518zxy/` 内容已于 2026-11-04 提升至根目录，`index.html` 位于仓库根）
 
 ## 前置条件（已具备，无需重复配置）
 - SSH 私钥：`C:\Users\HP\.ssh\id_ed25519`，公钥已添加到 GitHub 账号 `zxy-123-zxy456`
