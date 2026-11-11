@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<!--
+  zxy
+  创建时间：2026-11-11
+  使用大模型：DeepSeek-V4.1-Flash
+  功能名称：11.11 课堂作业汇总页（提示词工程 / creative 仿写 / 综合创作）
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>课堂任务 · Swiper 三连任务</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+    background: #f6f8fc;
+    color: #1f2937;
+  }
+
+  /* zxy_ 页面容器 */
+  .zxy_wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 36px 20px 60px;
+  }
+
+  /* zxy_ 头部 */
+  .zxy_head {
+    background: linear-gradient(135deg, #0f2b5b, #1d5bbf);
+    border-radius: 20px;
+    padding: 34px 36px;
+    color: #fff;
+    box-shadow: 0 12px 30px rgba(15, 43, 91, .3);
+  }
+
+  .zxy_badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .14);
+    border: 1px solid rgba(255, 255, 255, .3);
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+
+  .zxy_head h1 {
+    font-size: 27px;
+    line-height: 1.5;
+    margin-top: 14px;
+    letter-spacing: 1px;
+  }
+
+  .zxy_head h1 b {
+    color: #ffd166;
+  }
+
+  /* zxy_ 姓名学号填写区（留空） */
+  .zxy_meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 20px;
+  }
+
+  .zxy_meta span {
+    flex: 1 1 200px;
+    border-bottom: 1px dashed rgba(255, 255, 255, .5);
+    padding: 6px 2px;
+    font-size: 14px;
+    color: #dbe6f8;
+  }
+
+  /* zxy_ 目录条 */
+  .zxy_nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 22px 0 8px;
+  }
+
+  .zxy_nav a {
+    flex: 1 1 200px;
+    text-align: center;
+    padding: 12px 16px;
+    background: #fff;
+    border: 1px solid #dbe4ff;
+    border-radius: 12px;
+    color: #0f2b5b;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: transform .2s, box-shadow .2s;
+  }
+
+  .zxy_nav a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(15, 43, 91, .15);
+  }
+
+  /* zxy_ 任务大卡 */
+  .zxy_task {
+    background: #fff;
+    border: 1px solid #e8ecf5;
+    border-radius: 18px;
+    padding: 26px 28px;
+    margin-top: 22px;
+    box-shadow: 0 4px 16px rgba(31, 41, 55, .06);
+  }
+
+  .zxy_taskHead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid #eef1f7;
+    margin-bottom: 18px;
+  }
+
+  .zxy_taskHead h2 {
+    font-size: 20px;
+    color: #0f2b5b;
+    line-height: 1.5;
+  }
+
+  .zxy_stars {
+    color: #f59e0b;
+    font-size: 15px;
+    letter-spacing: 2px;
+  }
+
+  .zxy_tag {
+    margin-left: auto;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #1d4ed8;
+    font-size: 12.5px;
+  }
+
+  /* zxy_ 小标题 */
+  .zxy_h3 {
+    font-size: 15.5px;
+    color: #0f2b5b;
+    margin: 22px 0 10px;
+    padding-left: 10px;
+    border-left: 4px solid #1d5bbf;
+    line-height: 1.5;
+  }
+
+  /* zxy_ 正文 */
+  .zxy_text {
+    font-size: 14.5px;
+    line-height: 2;
+    color: #374151;
+  }
+
+  .zxy_text b {
+    color: #0f2b5b;
+  }
+
+  .zxy_text code,
+  .zxy_quote code {
+    font-family: Consolas, monospace;
+    background: #eef2ff;
+    color: #1d4ed8;
+    padding: 1px 6px;
+    border-radius: 5px;
+    font-size: 13px;
+  }
+
+  /* zxy_ 需求原文引用 */
+  .zxy_quote {
+    background: #f8fafc;
+    border-left: 4px solid #c7d2fe;
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.95;
+    color: #4b5563;
+  }
+
+  /* zxy_ 代码块 */
+  .zxy_code {
+    font-family: Consolas, monospace;
+    background: #0f172a;
+    color: #e2e8f0;
+    border-radius: 12px;
+    padding: 16px 18px;
+    font-size: 13px;
+    line-height: 1.9;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    margin-top: 10px;
+  }
+
+  .zxy_code em {
+    color: #7dd3fc;
+    font-style: normal;
+  }
+
+  .zxy_code i {
+    color: #64748b;
+    font-style: normal;
+  }
+
+  /* zxy_ 提示词框 */
+  .zxy_prompt {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.95;
+    color: #1e3a8a;
+    white-space: pre-wrap;
+    margin-top: 8px;
+  }
+
+  /* zxy_ 结论 / 提醒条 */
+  .zxy_note {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.95;
+    color: #78350f;
+    margin-top: 12px;
+  }
+
+  .zxy_note.zxy_bad {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #7f1d1d;
+  }
+
+  /* zxy_ 表格 */
+  .zxy_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  .zxy_table th,
+  .zxy_table td {
+    border: 1px solid #e8ecf5;
+    padding: 11px 14px;
+    text-align: left;
+    line-height: 1.85;
+    vertical-align: top;
+  }
+
+  .zxy_table th {
+    background: #f1f5fd;
+    color: #0f2b5b;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .zxy_table td:first-child {
+    color: #0f2b5b;
+    font-weight: bold;
+    width: 30%;
+  }
+
+  /* zxy_ 任务一验证截图 */
+  .zxy_shot {
+    display: block;
+    width: 100%;
+    max-width: 720px;
+    margin-top: 12px;
+    border: 1px solid #dbe4f3;
+    border-radius: 12px;
+  }
+
+  /* zxy_ 展品图 */
+  .zxy_exhibit {
+    width: 100%;
+    border-radius: 14px;
+    display: block;
+    margin-top: 12px;
+  }
+
+  /* zxy_ 底部导航 */
+  .zxy_back {
+    text-align: center;
+    margin-top: 32px;
+  }
+
+  .zxy_back a {
+    display: inline-block;
+    margin: 0 6px;
+    padding: 10px 26px;
+    border: 1px solid #dbe4ff;
+    border-radius: 999px;
+    background: #fff;
+    color: #0f2b5b;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: transform .2s, box-shadow .2s;
+  }
+
+  .zxy_back a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(15, 43, 91, .15);
+  }
+
+  @media (max-width: 640px) {
+    .zxy_head {
+      padding: 24px 20px;
+    }
+
+    .zxy_head h1 {
+      font-size: 21px;
+    }
+
+    .zxy_task {
+      padding: 20px 18px;
+    }
+
+    .zxy_table th,
+    .zxy_table td {
+      padding: 9px 10px;
+      font-size: 13px;
+    }
+
+    .zxy_table td:first-child {
+      width: 38%;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="zxy_wrap">
+
+  <div class="zxy_head">
+    <span class="zxy_badge">高级网页设计 · 2026-2027-1 · 课堂任务</span>
+    <h1>课堂任务：<b>提示词工程</b> · <b>creative 仿写</b> · <b>综合创作</b></h1>
+    <div class="zxy_meta">
+      <span>姓名：</span>
+      <span>学号：</span>
+      <span>班级：</span>
+    </div>
+  </div>
+
+  <div class="zxy_nav">
+    <a href="#task1">任务一 · 提示词工程师</a>
+    <a href="#task2">任务二 · creative 仿写</a>
+    <a href="#task3">任务三 · 综合创作</a>
+    <a href="#qa">答辩问答总表</a>
+    <a href="swiper-task.html">▶ 打开运行页面</a>
+  </div>
+
+  <!-- ══════════════ 答辩问答总表 ══════════════ -->
+  <div class="zxy_task" id="qa">
+    <div class="zxy_taskHead">
+      <h2>答辩问答总表</h2>
+      <span class="zxy_tag">三个任务的全部答辩问题与回答</span>
+    </div>
+
+    <table class="zxy_table">
+      <tr>
+        <th>任务</th>
+        <th>问题</th>
+        <th>回答</th>
+      </tr>
+      <tr>
+        <td>任务一</td>
+        <td>第一版提示词漏掉了哪个需求？</td>
+        <td>四条都写了，但第 ② 条只写了"手动操作后不停止"这个期望结果，没点破 Swiper 默认
+          <code>disableOnInteraction: true</code>；第 ④ 条只写"cube"，而页面任务卡原文是 slide，AI 直接照抄了任务卡。</td>
+      </tr>
+      <tr>
+        <td>任务一</td>
+        <td>第二轮是怎么"说清楚"的？</td>
+        <td>把形容词换成可验证条件：锁定 <code>#wySw4</code> / <code>#wyPag4</code> 且声明不要改 DOM；
+          把"不停止"写成"拖动 / 点击分页之后仍然继续"；要求每条属性注释标明对应第几条；加自检问句。</td>
+      </tr>
+      <tr>
+        <td>任务一</td>
+        <td>AI 第一次给的代码错在哪？</td>
+        <td><code>effect: 'slide'</code>（应为 cube）；<code>autoplay</code> 缺少
+          <code>disableOnInteraction: false</code>，拖动一次自动播放就永久停止。</td>
+      </tr>
+      <tr>
+        <td>任务二</td>
+        <td>transform 里的百分号是相对谁的？</td>
+        <td>相对 slide 自身的宽（X）和高（Y）。这些值最终写成 CSS 的
+          <code>translate3d()</code>，而 CSS 中 translate 百分比基准就是元素自身 border box；
+          Z 轴只能用 px，因为 <code>translateZ</code> 不接受百分比。</td>
+      </tr>
+      <tr>
+        <td>任务二</td>
+        <td>改一个数值让卡片转 20 度？</td>
+        <td><code>rotate</code> 是 <code>[X, Y, Z]</code>，屏幕平面打转用第三位。
+          把 <code>prev.rotate</code> 从 <code>[0,0,-10]</code> 改为 <code>[0,0,-20]</code>（负值逆时针）。</td>
+      </tr>
+      <tr>
+        <td>任务二</td>
+        <td>prev / next 的 transform 各控制什么？</td>
+        <td>两者都只描述<b>非激活状态</b>：<code>prev</code> 是左边那张的离场姿态，
+          <code>next</code> 是右边那张排队时的站姿；真正动起来的是 Swiper 把两者插值到归零态
+          （<code>translate:[0,0,0]</code>、<code>rotate:[0,0,0]</code>、<code>scale:1</code>）。</td>
+      </tr>
+      <tr>
+        <td>任务三</td>
+        <td>这段代码什么意思？</td>
+        <td><code>keyboard.enabled</code> 打开方向键翻页；<code>onlyInViewport</code> 限定只有轮播进入视口才响应；
+          它与 <code>autoplay</code>、<code>effect</code> 是并列配置项，互不覆盖。</td>
+      </tr>
+      <tr>
+        <td>任务三</td>
+        <td>AI 第一次哪里不对、改了什么？</td>
+        <td>图片首版在船体编造了错误船名 "Adara"（应为 Adora）与乱码字母；提示词追加
+          <code>no text / no lettering / no logos</code> 后重生成，展品名改由 HTML 文字渲染。</td>
+      </tr>
+      <tr>
+        <td>任务三</td>
+        <td>新参数的作用？</td>
+        <td><code>enabled</code>：允许键盘翻页；<code>onlyInViewport</code>：避免页面里 4 个轮播被方向键同时驱动。</td>
+      </tr>
+      <tr>
+        <td>任务三</td>
+        <td>现场把 delay 改成指定值，预期怎么变？</td>
+        <td>当前 <code>delay: 3200</code>。改 <b>1000</b>：1 秒一张，快到看不清字幕；
+          改 <b>8000</b>：很慢，适合图文阅读；改 <b>0</b>：几乎不停顿 / 按默认行为处理；
+          负数无意义，会被当作无效值。</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ══════════════ 任务一 ══════════════ -->
+  <div class="zxy_task" id="task1">
+    <div class="zxy_taskHead">
+      <h2>任务一 · 提示词工程师：让 AI 听懂需求</h2>
+      <span class="zxy_stars">★★</span>
+      <span class="zxy_tag">考核点：需求拆解 → 提示词精确化 → AI 输出验证</span>
+    </div>
+
+    <div class="zxy_quote">
+      本任务不写代码，写提示词。把下面需求"翻译"给 AI，让它生成
+      <code>new Swiper('#wySw4', {…})</code> 配置：① 无缝循环 ② 3.2 秒自动翻页且手动操作后不停止
+      ③ 圆点分页器可点击 ④ 初始效果为 cube。<br><br>
+      硬性要求：至少迭代 2 轮提示词（第 1 轮 AI 答案大概率有遗漏或错误），保留每轮提示词与 AI 回答；
+      亲自粘进页面验证每项需求，用截图 + 一句话结论说明验证结果。
+    </div>
+
+    <h3 class="zxy_h3">① 需求拆解（先把人话翻译成配置项）</h3>
+    <table class="zxy_table">
+      <tr>
+        <th>需求</th>
+        <th>对应配置</th>
+      </tr>
+      <tr>
+        <td>① 无缝循环</td>
+        <td><code>loop: true</code></td>
+      </tr>
+      <tr>
+        <td>② 3.2 秒自动翻页 + 手动后不停</td>
+        <td><code>autoplay: { delay: 3200, disableOnInteraction: false }</code></td>
+      </tr>
+      <tr>
+        <td>③ 圆点分页器可点击</td>
+        <td><code>pagination: { el: '#wyPag4', clickable: true }</code></td>
+      </tr>
+      <tr>
+        <td>④ 初始效果为 cube</td>
+        <td><code>effect: 'cube'</code> + <code>cubeEffect</code></td>
+      </tr>
+    </table>
+
+    <h3 class="zxy_h3">② 第 1 轮提示词</h3>
+    <div class="zxy_prompt">你是一名前端工程师。请为页面 swiper-task.html 的演示四编写 Swiper 11 初始化配置，
+容器 id 为 wySw4，分页器 id 为 wyPag4。要求：
+1. 无缝循环；
+2. 每 3.2 秒自动翻页，用户手动操作后不要停止；
+3. 圆点分页器可点击跳转；
+4. 初始效果为 cube。
+只输出 js 代码，变量名 swiper4。</div>
+
+    <h3 class="zxy_h3">③ 第 1 轮 AI 的回答（有问题）</h3>
+    <div class="zxy_code">var swiper4 = new Swiper('#wySw4', {
+  loop: true,
+  autoplay: { delay: 3200 },          <i>// ✗ 少了 disableOnInteraction</i>
+  pagination: { el: '#wyPag4', clickable: true },
+  effect: <em>'slide'</em>                     <i>// ✗ 不是 cube</i>
+});</div>
+
+    <div class="zxy_note zxy_bad">
+      <b>问题诊断：</b><br>
+      1. <b>需求 ④ 没落地</b>：AI 照抄了页面任务卡里的 "slide"，实际渲染出来是平推，看不见立方体。<br>
+      2. <b>需求 ② 是"假通过"</b>：Swiper 的 <code>autoplay.disableOnInteraction</code> 默认值是 <code>true</code>，
+      只写 <code>delay</code> 时，用户拖动一次自动播放就会被永久关掉。代码看起来对，一拖就停。
+    </div>
+
+    <h3 class="zxy_h3">④ 第 2 轮提示词（把模糊描述改成可判定条件）</h3>
+    <div class="zxy_prompt">沿用上一版，修正两处并补三条约束：
+1. 【已有 DOM 不要修改】容器固定为 #wySw4，分页器固定为 #wyPag4，选择器必须完全一致；
+2. 自动播放：每 3.2 秒一张，并且用户拖动 / 点击分页之后仍然继续，不能被永久中断；
+3. 初始效果：进入页面即为 3D 立方体（cube），不是平推 slide；
+4. 每条属性后加中文注释，标明它对应第几条要求；
+5. 输出前自检：手动拖一次后 3.2 秒是否还会自动翻？效果是不是立方体？</div>
+
+    <h3 class="zxy_h3">⑤ 第 2 轮 AI 的回答（最终采用）</h3>
+    <div class="zxy_code">var swiper4 = new Swiper('#wySw4', {
+  loop: true,                          <i>// ① 无缝循环</i>
+  autoplay: {
+    delay: 3200,                       <i>// ② 每 3.2 秒翻一张</i>
+    disableOnInteraction: <em>false</em>       <i>// ② 手动操作后自动播放继续</i>
+  },
+  pagination: {
+    el: '#wyPag4',
+    clickable: true                    <i>// ③ 圆点可点击</i>
+  },
+  effect: <em>'cube'</em>,                     <i>// ④ 初始 3D 立方体</i>
+  cubeEffect: { shadow: true, slideShadows: true, shadowOffset: 20, shadowScale: .94 }
+});</div>
+
+    <h3 class="zxy_h3">⑥ 粘贴进页面逐项验证</h3>
+    <table class="zxy_table">
+      <tr>
+        <th>需求</th>
+        <th>验证方式</th>
+        <th>结论</th>
+      </tr>
+      <tr>
+        <td>① 无缝循环</td>
+        <td>翻到第 6 张后继续下一张</td>
+        <td>不停在最后一张，首尾相接 ✅</td>
+      </tr>
+      <tr>
+        <td>② 3.2 秒自动翻</td>
+        <td>不碰鼠标静置观察</td>
+        <td>约 3 秒翻一张 ✅</td>
+      </tr>
+      <tr>
+        <td>② 手动后不停</td>
+        <td>拖动一次后松手静置</td>
+        <td>约 3.2 秒后继续自动翻 ✅</td>
+      </tr>
+      <tr>
+        <td>③ 圆点可点击</td>
+        <td>点第 4 个圆点</td>
+        <td>直接跳到第 4 张 ✅</td>
+      </tr>
+      <tr>
+        <td>④ 初始 cube</td>
+        <td>刷新页面看首屏</td>
+        <td>3D 立体翻转，非平推 ✅</td>
+      </tr>
+    </table>
+    <img class="zxy_shot" src="cube.png" alt="演示四 cube 效果截图">
+
+    <h3 class="zxy_h3">⑦ 答辩回答</h3>
+    <div class="zxy_text">
+      <b>问：第一版提示词漏掉了哪个需求？</b><br>
+      严格说四条都写了，但第 ② 条只写了"手动操作后不停止"这个<b>期望结果</b>，
+      没有点破 Swiper 的默认值 <code>disableOnInteraction: true</code>。AI 不知道这个默认值，
+      就会给出"加了 autoplay、一拖就停"的代码。第 ④ 条也只写了"初始效果 cube"，
+      而页面任务卡原文写的是 slide，AI 直接照抄了任务卡。<br><br>
+
+      <b>问：第二轮怎么"说清楚"的？</b><br>
+      把形容词换成可验证的条件：① 明确列出已有 DOM 且"不要修改"，锁死两个 id；
+      ② 把"不停止"写成"拖动 / 点击分页之后仍然继续"；③ 要求每条属性注释标明对应第几条需求，
+      逼 AI 自证不漏项；④ 加自检问句，把默认值陷阱变成输出前必须回答的是非题。<br><br>
+
+      <b>问：AI 第一次给的代码错在哪？</b><br>
+      <code>effect: 'slide'</code>（应为 cube）和 <code>autoplay</code> 缺少
+      <code>disableOnInteraction: false</code>（拖动一次自动播放就永久停止）。
+    </div>
+  </div>
+
+  <!-- ══════════════ 任务二 ══════════════ -->
+  <div class="zxy_task" id="task2">
+    <div class="zxy_taskHead">
+      <h2>任务二 · creative 仿写：课堂没讲，AI 教你</h2>
+      <span class="zxy_stars">★★★</span>
+      <span class="zxy_tag">考核点：AI 自学未讲 API + 官方示例阅读能力</span>
+    </div>
+
+    <div class="zxy_quote">
+      课堂上只讲了 6 种 effect，Swiper 还有第 7 种 —— creative（自定义变换），本课未讲解。
+      请打开官方示例 <code>swiper/demo/257-effect-creative.html</code>，配合 AI 读懂
+      <code>creativeEffect</code> 的 transform 写法，为演示四新增第 7 个按钮「creative 电影墙」。<br>
+      效果要求：上一张缩小左移并带角度、下一张放大右移进场（参数自定，但要"像电影选片墙"）。
+    </div>
+
+    <h3 class="zxy_h3">① 读官方示例得到的结论</h3>
+    <div class="zxy_text">
+      官方 5 个例子改的都是同一组键：<code>translate</code>（三维位移）、<code>rotate</code>（三维角度），
+      再加 <code>opacity</code> / <code>scale</code> / <code>shadow</code>。
+      类型定义见 <code>swiper/types/modules/effect-creative.d.ts</code>。
+    </div>
+
+    <h3 class="zxy_h3">② 新增按钮</h3>
+    <div class="zxy_code">&lt;button data-fx="creative"&gt;creative 电影墙（自定义变换）&lt;/button&gt;</div>
+    <div class="zxy_text">
+      复用页面已有的 <code>data-fx</code> 机制，按钮点击事件一行都不用改。
+    </div>
+
+    <h3 class="zxy_h3">③ 配置（电影选片墙）</h3>
+    <div class="zxy_code">creativeEffect: {
+  prev: {                                  <i>// 上一张：缩小、左移、带角度</i>
+    translate: ['-58%', 0, -320],          <i>// 左移 58%，Z 后退 320px（越远越小）</i>
+    rotate:    [0, 0, <em>-20</em>],              <i>// 绕 Z 轴逆时针 20°</i>
+    scale:     0.72,
+    opacity:   0.45,
+    shadow:    true
+  },
+  next: {                                  <i>// 下一张：放大、从右侧推进</i>
+    translate: ['78%', 0, 120],            <i>// 右移 78%，Z 前移 120px（越近越大）</i>
+    rotate:    [0, 0, 8],
+    scale:     1.06,
+    opacity:   0.85,
+    shadow:    true
+  },
+  limitProgress: 1
+}</div>
+
+    <h3 class="zxy_h3">④ 追问：prev / next 的 transform 各控制什么（自己的话）</h3>
+    <div class="zxy_text">
+      <b>prev</b> 描述的是当前这张<b>左边那张</b>在<b>非激活状态</b>下的姿态 —— 它退到哪、退多远、歪多少度、还剩多大，
+      本质是"离场姿态"。<br>
+      <b>next</b> 描述的是<b>右边那张</b>还没轮到它时的姿态 —— 不是进场动画，而是"排队时的站姿"。<br>
+      真正动起来的是 Swiper：切换时它把这两个姿态按进度<b>插值到归零态</b>
+      （<code>translate: [0,0,0]</code>、<code>rotate: [0,0,0]</code>、<code>scale: 1</code>），
+      看起来才像"进场 / 离场"。
+    </div>
+
+    <h3 class="zxy_h3">⑤ 答辩回答</h3>
+    <div class="zxy_text">
+      <b>问：transform 里的百分号是相对谁的？</b><br>
+      相对 <b>slide 自身</b>的宽（X 轴）和高（Y 轴），不是视口、也不是外层容器。
+      因为这些值最终写成 CSS 的 <code>transform: translate3d(...)</code>，
+      CSS 中 translate 百分比的基准就是元素自身的 border box。
+      本页 slide 宽正好等于容器宽，所以看着像"相对容器"；一旦 <code>slidesPerView: 3</code>，同样写 78% 就只按三分之一宽算。
+      Z 轴只能用 px，因为 <code>translateZ</code> 不接受百分比。<br><br>
+
+      <b>问：改一个数值让卡片转 20 度？</b><br>
+      <code>rotate</code> 是 <code>[X, Y, Z]</code>，屏幕上打转用第三位。把 <code>prev.rotate</code> 从
+      <code>[0, 0, -10]</code> 改成 <code>[0, 0, -20]</code> 即可（负值逆时针，正值顺时针）。
+      本页已改为 -20。
+    </div>
+  </div>
+
+  <!-- ══════════════ 任务三 ══════════════ -->
+  <div class="zxy_task" id="task3">
+    <div class="zxy_taskHead">
+      <h2>任务三 · 综合创作 + 技术答辩（超纲加分）</h2>
+      <span class="zxy_stars">★★★</span>
+      <span class="zxy_tag">考核点：AI 协作完成超纲功能 + 技术表达</span>
+    </div>
+
+    <div class="zxy_quote">
+      ① 为光影展添加第六件展品爱达·魔都号（首艘国产大型邮轮，2024 年 1 月首航），
+      图片用 AI 生成（横版 16:9），slide 结构完整；<br>
+      ② 挑一个课堂上没讲过的 Swiper 能力加上去：keyboard 键盘控制 / mousewheel 滚轮 /
+      zoom 双击缩放 / parallax 视差，任选其一。
+    </div>
+
+    <h3 class="zxy_h3">① 第六件展品：爱达·魔都号</h3>
+    <img class="zxy_exhibit" src="swiper-imgs/aida_1.jpg" alt="爱达·魔都号">
+    <div class="zxy_text" style="margin-top:10px;">
+      图片由 AI 生成（2560×1440，16:9 横版），四个演示各新增一张 slide，
+      结构与前五件完全一致：<code>img</code> + <code>.wy-cap</code>（<code>h3</code> 名称 + <code>p</code> 一句说明）。
+      分页圆点由 5 个自动变为 6 个，未手改 DOM。
+    </div>
+
+    <h3 class="zxy_h3">② 新增能力：keyboard 键盘控制</h3>
+    <div class="zxy_code">keyboard: {
+  enabled: true,          <i>// 开启方向键翻页</i>
+  onlyInViewport: true    <i>// 只有轮播进入视口才响应</i>
+}</div>
+    <div class="zxy_text">
+      选择它的原因：不需要额外插件（swiper-bundle 内置）、不改任何 DOM、
+      与现有 3.2 秒 autoplay 不冲突。不选另外三个：<code>mousewheel</code> 会抢页面滚动，
+      <code>zoom</code> 与 cube / creative 叠加容易错位，<code>parallax</code> 需要改 slide 内部结构。
+    </div>
+
+    <h3 class="zxy_h3">③ AI 关键往返（摘要）</h3>
+    <table class="zxy_table">
+      <tr>
+        <th>轮次</th>
+        <th>问题 → 修正</th>
+      </tr>
+      <tr>
+        <td>图片生成</td>
+        <td>首版船体出现编造船名 "Adara"（应为 Adora）与乱码字母 → 提示词追加
+          <code>no text / no lettering / no logos</code>，第二版船体干净，展品名交给 HTML 文字</td>
+      </tr>
+      <tr>
+        <td>keyboard 参数</td>
+        <td>只写 <code>enabled: true</code> 会让页面 4 个轮播同时响应方向键 → 补
+          <code>onlyInViewport: true</code></td>
+      </tr>
+      <tr>
+        <td>delay 陷阱</td>
+        <td><code>disableOnInteraction</code> 默认 <code>true</code> → 必须显式写 <code>false</code></td>
+      </tr>
+    </table>
+    <div class="zxy_text" style="margin-top:10px;">
+      以上三轮往返的提示词与 AI 回答已整理在上表，答辩时按表逐条说明即可。
+    </div>
+
+    <h3 class="zxy_h3">④ 答辩四连问</h3>
+    <table class="zxy_table">
+      <tr>
+        <th>问题</th>
+        <th>回答</th>
+      </tr>
+      <tr>
+        <td>这段代码什么意思？</td>
+        <td><code>keyboard.enabled</code> 打开方向键翻页；<code>onlyInViewport</code> 限定只有轮播进入视口才响应；
+          它与 <code>autoplay</code>、<code>effect</code> 是并列配置项，互不覆盖。</td>
+      </tr>
+      <tr>
+        <td>AI 第一次哪里不对、改了什么？</td>
+        <td>图片首版在船体编造错误船名与乱码字母，改为加负向约束重生成；展品名改由 HTML 渲染。</td>
+      </tr>
+      <tr>
+        <td>新参数的作用？</td>
+        <td><code>enabled</code>：允许键盘翻页；<code>onlyInViewport</code>：避免页面多个轮播被键盘同时驱动。</td>
+      </tr>
+      <tr>
+        <td>现场改 delay 并说预期</td>
+        <td>当前 <code>delay: 3200</code>。改 <b>1000</b>：1 秒一张，快到来不及看字；
+          改 <b>8000</b>：很慢，适合图文阅读；改 <b>0</b>：几乎不停顿 / 按默认行为处理。</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="zxy_back">
+    <a href="swiper-task.html">▶ 打开运行页面</a>
+    <a href="swiper-creative-qa.html">creative 详细问答</a>
+    <a href="index.html">← 返回首页</a>
+  </div>
+
+</div>
+</body>
+</html>

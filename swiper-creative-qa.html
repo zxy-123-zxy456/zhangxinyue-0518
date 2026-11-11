@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<!--
+  zxy
+  创建时间：2026-11-11
+  使用大模型：DeepSeek-V4.1-Flash
+  功能名称：Swiper 第 7 种 effect（creative）答辩问答页
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swiper creative 电影墙 · 答辩问答</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+    background: #f6f8fc;
+    color: #1f2937;
+  }
+
+  /* zxy_ 页面容器 */
+  .zxy_wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+  }
+
+  /* zxy_ 头部渐变区 */
+  .zxy_head {
+    background: linear-gradient(135deg, #0f2b5b, #1d5bbf);
+    border-radius: 20px;
+    padding: 36px 38px;
+    color: #fff;
+    margin-bottom: 26px;
+    box-shadow: 0 12px 30px rgba(15, 43, 91, .3);
+  }
+
+  .zxy_badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .14);
+    border: 1px solid rgba(255, 255, 255, .3);
+    font-size: 13px;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+
+  .zxy_head h1 {
+    font-size: 29px;
+    line-height: 1.4;
+    letter-spacing: 1px;
+  }
+
+  .zxy_head h1 b {
+    color: #ffd166;
+  }
+
+  .zxy_head p {
+    margin-top: 12px;
+    font-size: 14.5px;
+    color: #d9e3f5;
+    line-height: 2;
+  }
+
+  /* zxy_ 问答卡片 */
+  .zxy_card {
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e8ecf5;
+    border-radius: 16px;
+    padding: 22px 26px 22px 30px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 14px rgba(31, 41, 55, .06);
+  }
+
+  .zxy_card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: linear-gradient(#0f2b5b, #1d5bbf);
+  }
+
+  /* zxy_ 问题行，可点击折叠答案 */
+  .zxy_question {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .zxy_no {
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #0f2b5b, #1d5bbf);
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .zxy_question h2 {
+    flex: 1;
+    font-size: 17px;
+    line-height: 1.7;
+    color: #111827;
+  }
+
+  .zxy_arrow {
+    flex: none;
+    color: #9ca3af;
+    font-size: 13px;
+    transition: transform .2s;
+  }
+
+  /* zxy_ 答案区，默认展开 */
+  .zxy_answer {
+    margin: 12px 0 0 46px;
+    font-size: 14.5px;
+    line-height: 2;
+    color: #374151;
+  }
+
+  .zxy_answer b {
+    color: #0f2b5b;
+  }
+
+  /* zxy_ 折叠态：答案隐藏、箭头转向 */
+  .zxy_card.zxy_folded .zxy_answer {
+    display: none;
+  }
+
+  .zxy_card.zxy_folded .zxy_arrow {
+    transform: rotate(-90deg);
+  }
+
+  .zxy_answer code,
+  .zxy_code {
+    font-family: Consolas, monospace;
+  }
+
+  .zxy_answer code {
+    background: #eef2ff;
+    color: #1d4ed8;
+    padding: 1px 7px;
+    border-radius: 5px;
+    font-size: 13px;
+  }
+
+  /* zxy_ 代码块 */
+  .zxy_code {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-radius: 12px;
+    padding: 18px 20px;
+    font-size: 13px;
+    line-height: 1.9;
+    overflow-x: auto;
+    margin-top: 14px;
+  }
+
+  .zxy_code em {
+    color: #7dd3fc;
+    font-style: normal;
+  }
+
+  /* zxy_ 底部导航 */
+  .zxy_back {
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  .zxy_back a {
+    display: inline-block;
+    margin: 0 6px;
+    padding: 10px 26px;
+    border: 1px solid #dbe4ff;
+    border-radius: 999px;
+    background: #fff;
+    color: #0f2b5b;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: transform .2s, box-shadow .2s;
+  }
+
+  .zxy_back a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(15, 43, 91, .15);
+  }
+
+  @media (max-width: 600px) {
+    .zxy_head {
+      padding: 26px 22px;
+    }
+
+    .zxy_head h1 {
+      font-size: 22px;
+    }
+
+    .zxy_card {
+      padding: 18px 18px 18px 24px;
+    }
+
+    .zxy_answer {
+      margin-left: 0;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="zxy_wrap">
+
+  <div class="zxy_head">
+    <span class="zxy_badge">Swiper 11 · 第 7 种 effect · 答辩问答</span>
+    <h1>creative「电影墙」<b>追问与解答</b></h1>
+    <p>课堂只讲了 slide / fade / cube / coverflow / flip / cards 六种成品效果。<br>
+      creative 是唯一需要自己写变换参数的效果，下面是与它相关的问答记录。</p>
+  </div>
+
+  <!-- 问题 1 -->
+  <div class="zxy_card" data-zxy-faq>
+    <div class="zxy_question">
+      <span class="zxy_no">1</span>
+      <h2>creative 和另外六种 effect 的本质区别是什么？</h2>
+      <span class="zxy_arrow">▾</span>
+    </div>
+    <div class="zxy_answer">
+      前六种是<b>成品套餐</b>：Swiper 内部已经写好了整套变换，你只给一个名字就能用。<br>
+      creative 是<b>半成品</b>：它不预设任何动画，只提供 <code>prev</code> 和 <code>next</code> 两个"变换槽位"，
+      位移、角度、透明度、缩放全部由你填，所以课堂上没有讲——它需要你自己设计动画。
+    </div>
+  </div>
+
+  <!-- 问题 2 -->
+  <div class="zxy_card" data-zxy-faq>
+    <div class="zxy_question">
+      <span class="zxy_no">2</span>
+      <h2>prev / next 的 transform 各控制什么？</h2>
+      <span class="zxy_arrow">▾</span>
+    </div>
+    <div class="zxy_answer">
+      两者描述的都是<b>非激活状态</b>，不是"动画过程"。<br>
+      <b>prev</b>：当前这张<b>左边那一张</b>待命时的姿态。<br>
+      <b>next</b>：当前这张<b>右边那一张</b>排队时的姿态。<br>
+      真正动起来的是 Swiper：切换时它把这两个姿态按进度<b>插值到归零态</b>
+      （<code>translate: [0,0,0]</code>、<code>rotate: [0,0,0]</code>、<code>scale: 1</code>），
+      所以看起来才像"进场 / 离场"。
+    </div>
+  </div>
+
+  <!-- 问题 3 -->
+  <div class="zxy_card" data-zxy-faq>
+    <div class="zxy_question">
+      <span class="zxy_no">3</span>
+      <h2>translate 里的百分号，是相对谁的？</h2>
+      <span class="zxy_arrow">▾</span>
+    </div>
+    <div class="zxy_answer">
+      相对 <b>slide 自身</b>的宽度（X 轴）和高度（Y 轴），不是相对视口，也不是相对外层容器。<br>
+      原因：这些值最终被写成 CSS 的 <code>transform: translate3d(...)</code>，
+      而 CSS 规范中 translate 百分比的基准就是元素自身的 border box。<br>
+      本页 slide 宽度刚好等于 swiper 容器宽度，所以肉眼看着像"相对容器"；
+      一旦改成 <code>slidesPerView: 3</code>，同样写 <code>78%</code> 就只按"三分之一宽"计算了。
+    </div>
+  </div>
+
+  <!-- 问题 4 -->
+  <div class="zxy_card" data-zxy-faq>
+    <div class="zxy_question">
+      <span class="zxy_no">4</span>
+      <h2>为什么 Z 轴只能写数字，不能写百分比？</h2>
+      <span class="zxy_arrow">▾</span>
+    </div>
+    <div class="zxy_answer">
+      因为 CSS 的 <code>translateZ()</code> 不接受百分比——Z 轴朝向观察者，没有可参照的"长度"。
+      只能用 px：<b>负值后退</b>（配合 perspective 投影变小），<b>正值前移</b>（变大）。
+      这也正是电影墙纵深感的主要来源。
+    </div>
+  </div>
+
+  <!-- 问题 5 -->
+  <div class="zxy_card" data-zxy-faq>
+    <div class="zxy_question">
+      <span class="zxy_no">5</span>
+      <h2>怎么让卡片转 20 度？</h2>
+      <span class="zxy_arrow">▾</span>
+    </div>
+    <div class="zxy_answer">
+      <code>rotate</code> 是 <code>[X, Y, Z]</code> 三个角度。在屏幕平面上打转用的是第三位 Z。<br>
+      把 <code>prev.rotate</code> 的第三位从 <code>-10</code> 改成 <code>-20</code> 即可：
+      <div class="zxy_code">rotate: [0, 0, <em>-20</em>],   // 负值逆时针，正值顺时针</div>
+    </div>
+  </div>
+
+  <!-- 问题 6 -->
+  <div class="zxy_card" data-zxy-faq>
+    <div class="zxy_question">
+      <span class="zxy_no">6</span>
+      <h2>scale 和 translateZ 都能让卡片变小，区别在哪？</h2>
+      <span class="zxy_arrow">▾</span>
+    </div>
+    <div class="zxy_answer">
+      <b>translateZ</b> 是真实纵深：配合 <code>perspective</code> 产生近大远小的透视，边缘会轻微变形，有"退到墙后"的立体感。<br>
+      <b>scale</b> 是纯平面缩放：像把图片整体压小，没有透视，看起来"平"。<br>
+      两者叠加，才有现在这种电影选片墙的层次。
+    </div>
+  </div>
+
+  <!-- 当前配置 -->
+  <div class="zxy_card">
+    <div class="zxy_question">
+      <span class="zxy_no">∑</span>
+      <h2>本页演示四实际使用的配置</h2>
+      <span class="zxy_arrow">▾</span>
+    </div>
+    <div class="zxy_answer">
+      <div class="zxy_code">creativeEffect: {
+  prev: {                                  // 上一张：缩小、左移、带角度
+    translate: [<em>'-58%'</em>, 0, <em>-320</em>],   // X 相对 slide 宽度；Z 用 px，负值后退
+    rotate:    [0, 0, <em>-20</em>],            // 绕 Z 轴逆时针 20°
+    scale:     <em>0.72</em>,
+    opacity:   <em>0.45</em>,
+    shadow:    true
+  },
+  next: {                                  // 下一张：放大、从右侧推进
+    translate: [<em>'78%'</em>, 0, <em>120</em>],     // Z 正值前移，视觉上更大
+    rotate:    [0, 0, <em>8</em>],
+    scale:     <em>1.06</em>,
+    opacity:   <em>0.85</em>,
+    shadow:    true
+  },
+  limitProgress: <em>1</em>                          // 只定义紧邻的两张，更远的沿用同一姿态
+}</div>
+    </div>
+  </div>
+
+  <div class="zxy_back">
+    <a href="swiper-task.html">← 返回 Swiper 任务页</a>
+    <a href="index.html">← 返回课堂实践中心</a>
+  </div>
+
+</div>
+
+<script>
+  // 折叠/展开单个问答：点击问题行时切换该卡片的折叠状态
+  function zxy_toggleCard(zxy_card) {
+    zxy_card.classList.toggle("zxy_folded");
+  }
+
+  // 给所有问答卡片绑定点击事件：只处理问题行，避免点答案文字时误触
+  function zxy_bindFaq() {
+    var zxy_cards = document.querySelectorAll("[data-zxy-faq]");
+    var zxy_i;
+    for (zxy_i = 0; zxy_i < zxy_cards.length; zxy_i++) {
+      (function (zxy_card) {
+        var zxy_head = zxy_card.querySelector(".zxy_question");
+        zxy_head.addEventListener("click", function () {
+          zxy_toggleCard(zxy_card);
+        });
+      })(zxy_cards[zxy_i]);
+    }
+  }
+
+  // 页面加载完成后初始化问答交互
+  window.addEventListener("load", zxy_bindFaq);
+</script>
+</body>
+</html>
