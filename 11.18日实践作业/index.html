@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!--
+  zxy
+  创建时间：2026-11-18
+  使用大模型：DeepSeek-V4.1-Flash
+  功能名称：11.18 日实践作业 · 首页（任务一 事件侦探 / 任务二 手势卡片 / 任务三 图片查看器 / 任务四 摇一摇）
+  姓名：张欣悦
+  学号：（请填写）
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>11.18 日实践作业 | 张欣悦</title>
+  <!-- zxy：样式与结构分离，样式统一放在 css 目录 -->
+  <link rel="stylesheet" href="css/zxy_11_18_home.css">
+</head>
+<body>
+  <!-- zxy：顶部返回条 -->
+  <div class="zxy_topBar">
+    <a href="../index.html">← 返回课程首页</a>
+    <span>11.18 日实践作业 · zxy</span>
+  </div>
+
+  <div class="zxy_wrap">
+    <!-- zxy：页头 -->
+    <header class="zxy_head">
+      <span class="zxy_badge">课堂实践任务 · 4 关递进</span>
+      <h1>11.18 日实践作业</h1>
+      <p>观察 · 实现 · 综合 · 拓展 —— 四个任务分别对应一种移动端能力</p>
+      <p class="zxy_sign"><span>姓名：张欣悦</span><span>学号：__________</span></p>
+    </header>
+
+    <!-- zxy：四个任务入口 -->
+    <main class="zxy_taskList">
+
+      <!-- zxy：任务一 事件侦探（无独立页面，不做跳转） -->
+      <div class="zxy_task zxy_taskOff">
+        <div class="zxy_taskTop">
+          <span class="zxy_taskNo">任务一</span>
+          <span class="zxy_taskDim">观察 · 记录 · 不写代码</span>
+        </div>
+        <h2>事件侦探：一次拖动到底发生了什么</h2>
+        <p>依次完成单击、拖动、快滑、双指、长按五种操作，观察并记录触摸事件的触发顺序，回答三个验收问题（课堂完成，本作业无独立页面）。</p>
+        <div class="zxy_taskTags">
+          <span>touchstart / touchmove / touchend</span>
+          <span>click 的合成时机</span>
+          <span>touchcancel</span>
+        </div>
+        <span class="zxy_taskGo zxy_taskGoOff">本任务不做页面跳转</span>
+      </div>
+
+      <!-- zxy：任务二 手势卡片 -->
+      <a class="zxy_task" href="mobile-gesture.html">
+        <div class="zxy_taskTop">
+          <span class="zxy_taskNo">任务二</span>
+          <span class="zxy_taskDim">手势识别 · DOM 操作</span>
+        </div>
+        <h2>手势卡片：左右滑动切换内容</h2>
+        <p>中华美食卡片共 4 道菜，左滑下一张、右滑上一张，短距离移动不切换，连续快滑不会跳张，纵向仍可滚动页面。</p>
+        <div class="zxy_taskTags">
+          <span>changedTouches[0]</span>
+          <span>阈值 40px</span>
+          <span>0.3s 过渡 + 300ms 冷却</span>
+        </div>
+        <span class="zxy_taskGo">打开任务二 →</span>
+      </a>
+
+      <!-- zxy：任务三 图片查看器 -->
+      <a class="zxy_task" href="mobile-zoom.html">
+        <div class="zxy_taskTop">
+          <span class="zxy_taskNo">任务三</span>
+          <span class="zxy_taskDim">多指手势 · 变换 · 状态管理</span>
+        </div>
+        <h2>图片查看器：双指缩放 + 双击放大 + 拖动</h2>
+        <p>双指按距离缩放到 1～4 倍且以两指中点为基准，放大后单指拖动并限制在边界内，双击在 1x / 2x 间切换，旋转屏幕不丢状态。</p>
+        <div class="zxy_taskTags">
+          <span>以中点为锚点不跳</span>
+          <span>边界阻尼回弹</span>
+          <span>1x 不可拖出</span>
+        </div>
+        <span class="zxy_taskGo">打开任务三 →</span>
+      </a>
+
+      <!-- zxy：任务四 摇一摇 -->
+      <a class="zxy_task" href="mobile-sensor.html">
+        <div class="zxy_taskTop">
+          <span class="zxy_taskNo">任务四</span>
+          <span class="zxy_taskDim">设备传感器 · 权限 · 降级</span>
+        </div>
+        <h2>摇一摇彩蛋：摇动抽今日菜谱</h2>
+        <p>监听 devicemotion 用 accelerationIncludingGravity 计算合成加速度，超过阈值 18 触发抽奖并进入 1.5 秒冷却；无传感器时给出提示与手动按钮。</p>
+        <div class="zxy_taskTags">
+          <span>阈值 18 + 冷却 1.5s</span>
+          <span>不支持则降级</span>
+          <span>iOS 按钮授权</span>
+        </div>
+        <span class="zxy_taskGo">打开任务四 →</span>
+      </a>
+
+    </main>
+
+    <!-- zxy：本次踩坑记录 -->
+    <section class="zxy_pitfall">
+      <h2>本次遇到的一个坑：验收视频在 iPhone 上不播放</h2>
+
+      <p class="zxy_pitLabel">现象</p>
+      <p>任务三、任务四插入了 mp4 验收视频，电脑 Chrome 能正常播放，但用 iPhone Safari 打开时视频区域是黑的，点播放按钮没反应，进度条也拖不动。</p>
+
+      <p class="zxy_pitLabel">原因</p>
+      <p>问题不在视频文件，而在自己写的 <code>db/server.js</code> 静态服务上，缺了两样东西：</p>
+      <ol>
+        <li><b>没有注册 mp4 的 MIME 类型</b>：扩展名不在映射表里时，响应头会退回 <code>application/octet-stream</code>，浏览器把它当成「未知二进制文件」，不会按视频解析。</li>
+        <li><b>不支持 Range 分段请求</b>：视频播放器不会一次性下载整段视频，而是先请求 <code>Range: bytes=0-1023</code> 拿到文件头信息。原代码永远返回 <code>200</code> + 整个文件，Safari 拿不到 <code>206</code> 和 <code>Content-Range</code>，就判定「无法流式播放」，直接放弃。</li>
+      </ol>
+
+      <p class="zxy_pitLabel">解决</p>
+      <ol>
+        <li>在 MIME 映射表里补上 <code>'.mp4': 'video/mp4'</code>、<code>'.webm': 'video/webm'</code>；</li>
+        <li>在静态文件服务里增加 Range 分支：解析请求头里的 <code>bytes=start-end</code>，返回 <code>206</code>，并带上 <code>Content-Range</code>、<code>Content-Length</code>、<code>Accept-Ranges: bytes</code>，用 <code>fs.createReadStream(file, { start, end })</code> 只发这一段。</li>
+      </ol>
+
+      <p class="zxy_pitLabel">验证</p>
+      <p>命令 <code>curl -H "Range: bytes=0-1023" 视频地址</code> 返回 <code>HTTP/1.1 206 Partial Content</code> 与 <code>Content-Range: bytes 0-1023/13602679</code>；页面里 <code>video.readyState = 4</code>、<code>duration = 5.92s</code>、<code>error = null</code>。</p>
+
+      <p class="zxy_pitLabel">结论</p>
+      <p>自己写静态服务器时，「能打开图片」不等于「能播视频」。视频依赖 MIME 类型 + Range 分段响应这两件事，缺一个在 iOS 上就静默失败——而且不报错，只是一片黑。</p>
+    </section>
+
+    <!-- zxy：页脚 -->
+    <p class="zxy_footNote">每个任务页顶部都有「返回作业首页」，可随时回到本页切换。</p>
+    <p class="zxy_sign"><span>张欣悦</span><span>11.18 日实践作业</span></p>
+  </div>
+</body>
+</html>

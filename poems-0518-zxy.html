@@ -1,0 +1,151 @@
+<!--
+  zxy
+  创建时间：2026-11-13
+  使用大模型：DeepSeek-V4.1-Flash
+  功能名称：诗歌展示页（上图下文，从本地服务器读取 db/db.json 的 poems 数据）
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>zxy 诗歌展示</title>
+  <link rel="stylesheet" href="css/poems-zxy.css">
+</head>
+<body>
+  <div class="zxy_page">
+    <header class="zxy_header">
+      <h1>诗 歌 展 示</h1>
+      <p>数据来源：本地服务器 /db/db.json</p>
+    </header>
+
+    <!-- zxy_ 搜索与排序工具栏 -->
+    <div class="zxy_toolbar">
+      <input id="zxy_search" class="zxy_search" type="text" placeholder="输入关键字搜索标题或内容…" autocomplete="off">
+      <button id="zxy_sort" class="zxy_sort_btn" type="button">按标题长度排序 ↑</button>
+    </div>
+
+    <!-- zxy_ 诗歌卡片容器 -->
+    <main id="zxy_grid" class="zxy_grid">
+      <p class="zxy_tip">正在加载诗歌数据…</p>
+    </main>
+
+    <!-- zxy_ 作者列表（来自 /api/authors 接口） -->
+    <section class="zxy_authors">
+      <h3>作者列表</h3>
+      <div id="zxy_authors" class="zxy_authors_list"></div>
+    </section>
+
+    <div class="zxy_back">
+      <a href="index.html">← 返回课堂实践中心</a>
+    </div>
+  </div>
+
+  <script>
+    // zxy_ 缓存 fetch 到的全部数据，搜索/排序都基于此，不再重新请求服务器
+    var zxy_allPoems = [];
+    var zxy_allAuthors = [];
+    // zxy_ 排序方向：true=升序(短→长)，false=降序(长→短)
+    var zxy_sortAsc = true;
+
+    // zxy_ 并发获取 poems 和 authors 两份数据（Promise.all）
+    function zxy_loadData() {
+      var zxy_poemsUrl = 'http://localhost:3005/poems';
+      var zxy_authorsUrl = 'http://localhost:3005/api/authors';
+      // zxy_ 两个接口同时请求，都成功后才渲染
+      Promise.all([
+        fetch(zxy_poemsUrl).then(function (zxy_r) {
+          if (!zxy_r.ok) throw new Error('poems HTTP ' + zxy_r.status);
+          return zxy_r.json();
+        }),
+        fetch(zxy_authorsUrl).then(function (zxy_r) {
+          if (!zxy_r.ok) throw new Error('authors HTTP ' + zxy_r.status);
+          return zxy_r.json();
+        })
+      ])
+        .then(function (zxy_results) {
+          // zxy_ 把数据缓存起来，供搜索和排序复用
+          zxy_allPoems = zxy_results[0] || [];
+          zxy_allAuthors = zxy_results[1] || [];
+          zxy_applyView();
+        })
+        .catch(function (zxy_err) {
+          document.getElementById('zxy_grid').innerHTML =
+            '<p class="zxy_tip">数据加载失败：' + zxy_err.message +
+            '。请先执行 node db/server.js 启动服务器。</p>';
+        });
+    }
+
+    // zxy_ 根据搜索关键字与排序方向计算最终要展示的诗歌列表
+    function zxy_getVisiblePoems() {
+      var zxy_kw = (document.getElementById('zxy_search').value || '').trim().toLowerCase();
+      // zxy_ 过滤：标题或内容包含关键字
+      var zxy_list = zxy_allPoems.filter(function (zxy_p) {
+        if (!zxy_kw) return true;
+        var zxy_title = (zxy_p.title || '').toLowerCase();
+        var zxy_content = (zxy_p.content || '').toLowerCase();
+        return zxy_title.indexOf(zxy_kw) !== -1 || zxy_content.indexOf(zxy_kw) !== -1;
+      });
+      // zxy_ 按标题长度排序（中文字符按 length 计算）
+      zxy_list.sort(function (a, b) {
+        var zxy_la = (a.title || '').length;
+        var zxy_lb = (b.title || '').length;
+        return zxy_sortAsc ? zxy_la - zxy_lb : zxy_lb - zxy_la;
+      });
+      return zxy_list;
+    }
+
+    // zxy_ 应用当前视图（过滤 + 排序）并渲染
+    function zxy_applyView() {
+      zxy_render(zxy_getVisiblePoems(), zxy_allAuthors);
+    }
+
+    // zxy_ 渲染诗歌卡片（上图下文）与作者列表
+    function zxy_render(zxy_poems, zxy_authors) {
+      // zxy_ 渲染诗歌卡片
+      var zxy_container = document.getElementById('zxy_grid');
+      if (!zxy_poems || zxy_poems.length === 0) {
+        zxy_container.innerHTML = '<p class="zxy_tip">没有匹配的诗歌。</p>';
+      } else {
+        var zxy_html = '';
+        zxy_poems.forEach(function (zxy_p) {
+          zxy_html +=
+            '<article class="zxy_card">' +
+              '<img class="zxy_pic" src="' + zxy_p.pic + '" alt="' + (zxy_p.title || '') + '">' +
+              '<div class="zxy_body">' +
+                '<h2 class="zxy_title">' + (zxy_p.title || '无题') + '</h2>' +
+                '<p class="zxy_author">—— ' + (zxy_p.author || '佚名') + '</p>' +
+                '<p class="zxy_content">' + (zxy_p.content || '') + '</p>' +
+              '</div>' +
+            '</article>';
+        });
+        zxy_container.innerHTML = zxy_html;
+      }
+
+      // zxy_ 渲染作者列表
+      var zxy_authorsBox = document.getElementById('zxy_authors');
+      if (zxy_authorsBox) {
+        if (!zxy_authors || zxy_authors.length === 0) {
+          zxy_authorsBox.innerHTML = '<p class="zxy_tip">暂无作者数据。</p>';
+        } else {
+          zxy_authorsBox.innerHTML = zxy_authors.map(function (zxy_a) {
+            return '<span class="zxy_chip">' + zxy_a.name + '（' + zxy_a.count + '）</span>';
+          }).join('');
+        }
+      }
+    }
+
+    // zxy_ 绑定搜索框输入事件：实时过滤
+    document.getElementById('zxy_search').addEventListener('input', zxy_applyView);
+
+    // zxy_ 绑定排序按钮：切换升序/降序
+    document.getElementById('zxy_sort').addEventListener('click', function () {
+      zxy_sortAsc = !zxy_sortAsc;
+      this.textContent = '按标题长度排序 ' + (zxy_sortAsc ? '↑' : '↓');
+      zxy_applyView();
+    });
+
+    zxy_loadData();
+  </script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+/* zxy_ 11.18 日实践作业 · 移动端图片查看器样式（移动端优先，与 HTML 分离存放） */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  color: #fff;
+  background: #0b1120;
+}
+
+/* zxy_ 页面纵向布局：头部 + 固定高度查看区 + 说明 */
+.zxy_page {
+  display: flex;
+  flex-direction: column;
+  width: min(560px, 100%);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 10px 12px 16px;
+}
+
+/* zxy_ 顶部返回条 */
+.zxy_bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: none;
+  padding: 2px 2px 10px;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.zxy_bar a {
+  color: #c7d2fe;
+  text-decoration: none;
+}
+
+/* zxy_ 图片容器：裁切溢出、禁用浏览器手势与文本选中 */
+.zxy_viewer {
+  position: relative;
+  flex: none;
+  height: 58vh;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #020617;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+  /* zxy_ 关键：阻止浏览器接管缩放/滚动，手势全部交给 JS */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  cursor: grab;
+}
+
+/* zxy_ 图片铺满容器，transform-origin 放在左上角便于计算缩放基准 */
+.zxy_img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: 0 0;
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* zxy_ 0.25s 过渡：只在双击与松手回弹时添加，手势过程中不加，避免跟手迟滞 */
+.zxy_anim {
+  transition: transform 0.25s ease-out;
+}
+
+/* zxy_ 打开页面时的提示条 */
+.zxy_tip {
+  position: absolute;
+  left: 50%;
+  top: 18px;
+  margin: 0;
+  padding: 9px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  white-space: nowrap;
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.92);
+  transform: translate(-50%, -8px);
+  opacity: 0;
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+}
+
+.zxy_tipShow {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* zxy_ 当前倍数 */
+.zxy_hud {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-family: Consolas, monospace;
+  font-size: 12px;
+  color: #a5f3fc;
+  background: rgba(2, 6, 23, 0.6);
+}
+
+/* zxy_ 底部说明 */
+.zxy_foot {
+  flex: none;
+  padding-top: 10px;
+  text-align: center;
+}
+
+.zxy_foot p {
+  margin: 4px 0;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: #94a3b8;
+}
+
+.zxy_sign {
+  margin-top: 8px !important;
+  font-size: 12px !important;
+  color: #64748b !important;
+}
+
+.zxy_sign span {
+  margin: 0 8px;
+}
+
+/* zxy_ 超小屏时压缩说明区，保证图片区仍然够大 */
+@media (max-height: 620px) {
+  .zxy_foot p:not(.zxy_sign) {
+    display: none;
+  }
+
+  .zxy_viewer {
+    height: 50vh;
+  }
+}
+
+/* zxy_ 验收演示视频区（默认收起，点击展开） */
+.zxy_demo {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.zxy_demo summary {
+  font-size: 13px;
+  color: #c7d2fe;
+  cursor: pointer;
+  outline: none;
+}
+
+.zxy_video {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 10px;
+  background: #000;
+}

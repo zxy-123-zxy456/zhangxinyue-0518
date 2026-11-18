@@ -1,0 +1,219 @@
+/* zxy_ 11.18 日实践作业 · 任务三「手势卡片」样式（移动端优先，与 HTML 分离存放） */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  color: #fff;
+  background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 60%, #020617 100%);
+}
+
+/* zxy_ 页面纵向容器 */
+.zxy_page {
+  display: flex;
+  flex-direction: column;
+  width: min(480px, 100%);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 14px 16px 28px;
+}
+
+/* zxy_ 顶部返回条 */
+.zxy_bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 2px 14px;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.zxy_bar a {
+  color: #c7d2fe;
+  text-decoration: none;
+}
+
+/* zxy_ 滑动区：pan-y 保证纵向滚动页面，横向手势由 JS 处理 */
+.zxy_swipeArea {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  justify-content: center;
+  touch-action: pan-y;
+}
+
+/* zxy_ 美食卡片 */
+.zxy_card {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  height: 360px;
+  padding: 28px 26px;
+  overflow: hidden;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #f97316, #b91c1c);
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.45);
+  will-change: transform, opacity;
+}
+
+/* zxy_ 卡片右下角的装饰圆，增加层次 */
+.zxy_card::after {
+  content: "";
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.zxy_cardInner {
+  position: relative;
+  z-index: 1;
+}
+
+.zxy_pageNum {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.zxy_dishName {
+  margin: 10px 0 8px;
+  font-size: 34px;
+  letter-spacing: 3px;
+  color: #fff;
+  text-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.zxy_dishDesc {
+  max-width: 30ch;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* zxy_ 滑动提示 */
+.zxy_hint {
+  margin: 0;
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: #94a3b8;
+}
+
+/* zxy_ 边界提示文字 */
+.zxy_toast {
+  height: 26px;
+  margin: 12px 0 0;
+  text-align: center;
+  font-size: 14px;
+  color: #fca5a5;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.zxy_toastShow {
+  opacity: 1;
+}
+
+/* zxy_ 0.3s 切换动画：左滑时新卡片从右侧进入，右滑时从左侧进入 */
+@keyframes zxy_inFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(64px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes zxy_inFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-64px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.zxy_swapLeft {
+  animation: zxy_inFromRight 0.3s ease-out;
+}
+
+.zxy_swapRight {
+  animation: zxy_inFromLeft 0.3s ease-out;
+}
+
+/* zxy_ 操作说明（让页面高度超出一屏，便于验证纵向滚动） */
+.zxy_help {
+  margin-top: 26px;
+  padding: 18px 20px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 16px;
+  background: rgba(30, 41, 59, 0.45);
+}
+
+.zxy_help h2 {
+  margin: 0 0 10px;
+  font-size: 15px;
+  letter-spacing: 1px;
+  color: #c7d2fe;
+}
+
+.zxy_help ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.zxy_help li {
+  margin-bottom: 8px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #cbd5e1;
+}
+
+.zxy_help b {
+  color: #fcd34d;
+}
+
+.zxy_help code {
+  padding: 1px 5px;
+  border-radius: 5px;
+  font-family: Consolas, monospace;
+  font-size: 12px;
+  color: #a5f3fc;
+  background: rgba(2, 6, 23, 0.6);
+}
+
+/* zxy_ 署名 */
+.zxy_sign {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 22px;
+  font-size: 12.5px;
+  color: #64748b;
+}
+
+/* zxy_ 小屏适配 */
+@media (max-height: 640px) {
+  .zxy_card {
+    height: 300px;
+  }
+}

@@ -1,0 +1,239 @@
+/* zxy_ 11.18 日实践作业 · 摇一摇抽菜谱样式（移动端优先） */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+  color: #f8fafc;
+  background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0b1120 55%, #020617 100%);
+}
+
+.zxy_page {
+  width: min(520px, 100%);
+  margin: 0 auto;
+  padding: 12px 18px 28px;
+}
+
+/* zxy_ 顶部返回条 */
+.zxy_bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0 12px;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.zxy_bar a {
+  color: #c7d2fe;
+  text-decoration: none;
+}
+
+/* zxy_ 主提示 */
+.zxy_head {
+  padding: 8px 0 2px;
+  text-align: center;
+}
+
+.zxy_head h1 {
+  margin: 0 0 6px;
+  font-size: 22px;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #fbbf24, #fb7185);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.zxy_head p {
+  margin: 0;
+  font-size: 12.5px;
+  color: #94a3b8;
+}
+
+/* zxy_ 设备状态提示：默认灰色、正常绿色、警告琥珀色 */
+.zxy_status {
+  margin: 14px 0 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+  color: #94a3b8;
+  background: rgba(148, 163, 184, 0.1);
+}
+
+.zxy_status.zxy_ok {
+  color: #86efac;
+  background: rgba(34, 197, 94, 0.14);
+}
+
+.zxy_status.zxy_warn {
+  color: #fcd34d;
+  background: rgba(251, 191, 36, 0.14);
+}
+
+/* zxy_ 结果卡片，背景由 JS 按菜品替换 */
+.zxy_result {
+  margin: 16px 0 18px;
+  padding: 34px 20px 30px;
+  border-radius: 22px;
+  text-align: center;
+  background: linear-gradient(135deg, #334155, #1e293b);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+.zxy_label {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 6px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.zxy_dish {
+  margin: 10px 0 8px;
+  font-size: 34px;
+  letter-spacing: 2px;
+  color: #fff;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.zxy_desc {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* zxy_ 弹出动画：轻微放大回弹 */
+.zxy_pop {
+  animation: zxy_popIn 0.45s cubic-bezier(0.2, 1.5, 0.4, 1);
+}
+
+@keyframes zxy_popIn {
+  0% {
+    transform: scale(0.72);
+    opacity: 0.4;
+  }
+  60% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* zxy_ 手动抽取按钮 */
+.zxy_btn {
+  display: block;
+  width: 100%;
+  padding: 14px 18px;
+  border: 0;
+  border-radius: 14px;
+  font-size: 16px;
+  font-family: inherit;
+  color: #111827;
+  background: linear-gradient(135deg, #fcd34d, #f59e0b);
+  box-shadow: 0 10px 24px rgba(245, 158, 11, 0.35);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.zxy_btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.3);
+}
+
+.zxy_count {
+  margin: 10px 0 0;
+  font-size: 12px;
+  text-align: center;
+  color: #64748b;
+}
+
+/* zxy_ 说明区 */
+.zxy_note {
+  margin-top: 26px;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.zxy_note h2 {
+  margin: 0 0 10px;
+  font-size: 15px;
+  color: #c7d2fe;
+}
+
+.zxy_note h2 + p {
+  margin-top: 0;
+}
+
+.zxy_note p {
+  margin: 0 0 14px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #94a3b8;
+}
+
+.zxy_note p:last-child {
+  margin-bottom: 0;
+}
+
+.zxy_note b {
+  color: #fbbf24;
+}
+
+.zxy_note code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-family: Consolas, monospace;
+  font-size: 12px;
+  color: #a5f3fc;
+  background: rgba(34, 211, 238, 0.12);
+}
+
+/* zxy_ 验收演示视频区 */
+.zxy_demo {
+  margin-top: 22px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.zxy_demo h2 {
+  margin: 0 0 10px;
+  font-size: 15px;
+  color: #c7d2fe;
+}
+
+.zxy_video {
+  display: block;
+  width: 100%;
+  border-radius: 10px;
+  background: #000;
+}
+
+/* zxy_ 署名 */
+.zxy_sign {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 12px;
+  color: #475569;
+}
+
+.zxy_sign span {
+  margin: 0 8px;
+}

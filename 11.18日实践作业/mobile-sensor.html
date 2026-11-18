@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--
+  zxy
+  创建时间：2026-11-18
+  使用大模型：DeepSeek-V4.1-Flash
+  功能名称：11.18 日实践作业 · 摇一摇抽今日菜谱（devicemotion + 冷却 + 不支持降级）
+  姓名：张欣悦
+  学号：（请填写）
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>摇一摇抽菜谱 | 张欣悦 · 11.18 日实践作业</title>
+  <!-- zxy：样式与结构分离，样式统一放在 css 目录 -->
+  <link rel="stylesheet" href="css/zxy_mobile_sensor.css">
+</head>
+<body>
+  <div class="zxy_page">
+    <!-- zxy：顶部返回条 -->
+    <header class="zxy_bar">
+      <a href="index.html">← 返回作业首页</a>
+      <span>任务四 · 摇一摇抽菜谱</span>
+    </header>
+
+    <!-- zxy：页面主提示 -->
+    <header class="zxy_head">
+      <h1>摇一摇手机，抽今日菜谱</h1>
+      <p>用力摇动，1.5 秒内只计一次</p>
+    </header>
+
+    <!-- zxy：设备状态提示（不支持 / 待授权 / 正在检测） -->
+    <p class="zxy_status" id="zxy_status">正在检测设备传感器…</p>
+
+    <!-- zxy：抽奖结果卡片 -->
+    <section class="zxy_result" id="zxy_result">
+      <p class="zxy_label">今 日 菜 谱</p>
+      <h2 class="zxy_dish" id="zxy_dishName">？</h2>
+      <p class="zxy_desc" id="zxy_dishDesc">摇一摇，或点下面的按钮</p>
+    </section>
+
+    <!-- zxy：手动抽取按钮：既是不支持时的降级方案，也是 iOS 的授权入口 -->
+    <button type="button" class="zxy_btn" id="zxy_pick">点我抽一次</button>
+    <p class="zxy_count" id="zxy_count">已抽 0 次</p>
+
+    <!-- zxy：说明区 -->
+    <section class="zxy_note">
+      <h2>为什么必须做降级</h2>
+      <p>并不是每台设备都有加速度传感器：台式机、部分笔记本、部分安卓平板都没有；iOS 13 以后还要求由用户手势触发
+         <code>DeviceMotionEvent.requestPermission()</code>，否则监听不到任何数据。如果只写摇一摇、不做兜底，
+         这些设备上的表现就是“摇半天没反应”，或者在读取空数据时抛错导致页面白屏。
+         所以这里保留一个「点我抽一次」按钮，保证任何设备、任何权限状态下都能完成一次抽取。</p>
+
+      <h2>accelerationIncludingGravity 与 acceleration 的区别</h2>
+      <p><b>accelerationIncludingGravity</b>：包含重力加速度。手机静置时三轴的合成值约为 <b>9.8</b>（地球重力），
+         方向随手机摆放姿态变化，摇动时在此基础上叠加抖动。</p>
+      <p><b>acceleration</b>：已经扣除重力，只保留设备自身的运动加速度。手机静置时约等于 <b>0</b>，摇动时才有明显数值。</p>
+      <p>本页用前者计算合成加速度 <code>√(x²+y²+z²)</code>，静止基线约 9.8，所以阈值取 <b>18</b> 才能区分“摇动”和“拿着不动”；
+         如果改用 acceleration，基线是 0，阈值就必须调小得多，否则几乎摇不动。</p>
+    </section>
+
+    <!-- zxy：任务四验收演示视频 -->
+    <section class="zxy_demo">
+      <h2>任务四 · 验收演示视频</h2>
+      <video class="zxy_video" src="videos/zxy_sensor-demo.mp4" controls playsinline preload="metadata"></video>
+    </section>
+
+    <!-- zxy：署名 -->
+    <footer class="zxy_sign">
+      <span>姓名：张欣悦</span>
+      <span>学号：__________</span>
+      <span>11.18 日实践作业</span>
+    </footer>
+  </div>
+
+  <script src="js/zxy_mobile_sensor.js"></script>
+</body>
+</html>

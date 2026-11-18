@@ -6,6 +6,7 @@
 - 网页源码：`D:\Users\HP\Desktop\HTML文件\zhang-xinyue\518zxy`（本目录）
 - Git 仓库根：上一级 `zhang-xinyue`（分支 `master`）
 - 本机：Windows + PowerShell 5.1，不要用 `&&`；文件读写用专用工具，不要用 `Get-Content` / `Set-Content`
+- 路径含中文（如 `HTML文件`、`zhang-xinyue`），PowerShell 控制台输出可能乱码；确认文件内容以 Read 工具为准，不要轻信终端渲染的中文
 - 预览：直接用浏览器打开 `index.html`；所有页面相对路径引用，必须保持可 file:// 打开
 
 ## 结构

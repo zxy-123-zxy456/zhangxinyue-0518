@@ -20,3 +20,6 @@ bin-release/
 # zxy: 提示词执行记录（含敏感信息，不入库）
 **/zxy_prompt.md
 
+# zxy: Node 依赖，不入库
+**/node_modules/
+

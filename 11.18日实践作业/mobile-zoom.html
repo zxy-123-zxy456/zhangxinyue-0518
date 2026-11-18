@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--
+  zxy
+  创建时间：2026-11-18
+  使用大模型：DeepSeek-V4.1-Flash
+  功能名称：11.18 日实践作业 · 移动端图片查看器（双指缩放 / 单指拖动 / 双击切换）
+  姓名：张欣悦
+  学号：（请填写）
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>图片查看器 | 张欣悦 · 11.18 日实践作业</title>
+  <!-- zxy：样式与结构分离，样式统一放在 css 目录 -->
+  <link rel="stylesheet" href="css/zxy_mobile_zoom.css">
+</head>
+<body>
+  <div class="zxy_page">
+    <!-- zxy：顶部返回条 -->
+    <header class="zxy_bar">
+      <a href="index.html">← 返回作业首页</a>
+      <span>任务三 · 图片查看器</span>
+    </header>
+
+    <!-- zxy：图片容器（overflow:hidden + touch-action:none + 禁止选中） -->
+    <div class="zxy_viewer" id="zxy_viewer">
+      <img class="zxy_img" id="zxy_img" src="img/zxy_zoom.jpg" alt="古典园林大图，可双指放大查看门窗与瓦片细节">
+
+      <!-- zxy：打开页面时的提示 -->
+      <p class="zxy_tip" id="zxy_tip">双指缩放请用手机打开</p>
+
+      <!-- zxy：当前倍数显示 -->
+      <span class="zxy_hud" id="zxy_hud">1.00x</span>
+    </div>
+
+    <!-- zxy：操作说明与署名 -->
+    <footer class="zxy_foot">
+      <p>双指缩放（1～4 倍）· 放大后单指拖动 · 双击在 1x / 2x 之间切换</p>
+      <p>缩放到边界带阻尼回弹；1x 时无法拖动；旋转屏幕后保留当前倍数</p>
+      <p class="zxy_sign"><span>姓名：张欣悦</span><span>学号：__________</span><span>11.18 日实践作业</span></p>
+    </footer>
+
+    <!-- zxy：任务三验收演示视频（点击展开） -->
+    <details class="zxy_demo">
+      <summary>任务三 · 验收演示视频</summary>
+      <video class="zxy_video" src="videos/zxy_zoom-demo.mp4" controls playsinline preload="metadata"></video>
+    </details>
+  </div>
+
+  <script src="js/zxy_mobile_zoom.js"></script>
+</body>
+</html>

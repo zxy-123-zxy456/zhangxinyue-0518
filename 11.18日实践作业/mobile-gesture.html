@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+  zxy
+  创建时间：2026-11-18
+  使用大模型：DeepSeek-V4.1-Flash
+  功能名称：11.18 日实践作业 · 任务二「手势卡片」—— 左右滑动切换中华美食卡片
+  姓名：张欣悦
+  学号：（请填写）
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>手势卡片 | 张欣悦 · 11.18 日实践作业</title>
+  <!-- zxy：样式与结构分离，样式统一放在 css 目录 -->
+  <link rel="stylesheet" href="css/zxy_mobile_gesture.css">
+</head>
+<body>
+  <div class="zxy_page">
+    <!-- zxy：顶部返回条 -->
+    <header class="zxy_bar">
+      <a href="index.html">← 返回作业首页</a>
+      <span>任务二 · 手势卡片</span>
+    </header>
+
+    <!-- zxy：滑动区（touch-action: pan-y，横向手势交给 JS，纵向仍可滚动页面） -->
+    <main class="zxy_swipeArea" id="zxy_swipeArea">
+      <!-- zxy：美食卡片，背景渐变由 JS 按菜品切换 -->
+      <article class="zxy_card" id="zxy_card">
+        <div class="zxy_cardInner">
+          <p class="zxy_pageNum" id="zxy_pageNum">第 1 / 4 张</p>
+          <h1 class="zxy_dishName" id="zxy_dishName">宫保鸡丁</h1>
+          <p class="zxy_dishDesc" id="zxy_dishDesc">鸡丁、花生与干辣椒同炒。</p>
+        </div>
+      </article>
+      <p class="zxy_hint">← 左右滑动切换菜品 →</p>
+    </main>
+
+    <!-- zxy：边界提示文字 -->
+    <p class="zxy_toast" id="zxy_toast"></p>
+
+    <!-- zxy：操作说明（用于验证纵向仍可滚动页面） -->
+    <section class="zxy_help">
+      <h2>操作说明</h2>
+      <ul>
+        <li>左右滑动卡片切换菜品，横向位移需超过 <b>40px</b> 才会切换，短距离误触不生效。</li>
+        <li>滑到第一张再往右滑、最后一张再往左滑，会出现「已经是第一张 / 最后一张」提示。</li>
+        <li>切换带 <b>0.3s</b> 过渡动画；<b>300ms</b> 内连续滑动只生效一次，不会一次跳两张。</li>
+        <li>卡片区设置 <code>touch-action: pan-y</code>：横向滑动不会带动页面，纵向仍可正常上下滚动。</li>
+      </ul>
+    </section>
+
+    <!-- zxy：署名 -->
+    <footer class="zxy_sign">
+      <span>姓名：张欣悦</span>
+      <span>学号：__________</span>
+      <span>11.18 日实践作业</span>
+    </footer>
+  </div>
+
+  <script src="js/zxy_mobile_gesture.js"></script>
+</body>
+</html>
